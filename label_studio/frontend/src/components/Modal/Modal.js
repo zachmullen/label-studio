@@ -48,10 +48,7 @@ const standaloneModal = (props) => {
       renderModal({...props, ...(newProps ?? {}), visible: true}, false);
     },
     close() {
-      const result = modalRef.current.hide();
-      unmountComponentAtNode(rootDiv);
-      rootDiv.remove();
-      return result;
+      return modalRef.current.hide();
     },
   };
 };

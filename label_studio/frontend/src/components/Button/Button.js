@@ -16,6 +16,7 @@ export const Button = React.forwardRef(
       icon,
       tag,
       look,
+      primary,
       ...rest
     },
     ref,
@@ -29,6 +30,7 @@ export const Button = React.forwardRef(
       look: look ?? [],
       withIcon: !!icon,
       withExtra: !!extra,
+      disabled: rest.disabled,
     };
 
     const formSubmitting = React.useContext(FormSubmissionContext);
@@ -41,9 +43,8 @@ export const Button = React.forwardRef(
       }
     }
 
-    if (rest.primary) {
+    if (primary === true) {
       mods.look = 'primary';
-      delete rest.primary;
     }
 
     const iconElem = React.useMemo(() => {

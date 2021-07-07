@@ -141,7 +141,7 @@ export class Modal extends React.Component {
 
     e.stopPropagation();
     e.preventDefault();
-    this.hide();
+    this.hide(this.props.onExit);
   }
 
   transition(type, onFinish) {

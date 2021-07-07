@@ -1,8 +1,9 @@
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useLocation } from 'react-router';
 import { StaticContent } from '../../app/StaticContent/StaticContent';
 import { IconBook, IconFolder, IconPersonInCircle, IconPin, IconTerminal, LsDoor, LsGitHub, LsSettings, LsSlack } from '../../assets/icons';
 import { useConfig } from '../../providers/ConfigProvider';
-import { useContextComponent, useFixedLocation } from '../../providers/RoutesProvider';
+import { useContextComponent } from '../../providers/RoutesProvider';
 import { cn } from '../../utils/bem';
 import { absoluteURL } from '../../utils/helpers';
 import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs';
@@ -49,7 +50,7 @@ export const Menubar = ({
 }) => {
   const menuDropdownRef = useRef();
   const useMenuRef = useRef();
-  const location = useFixedLocation();
+  const location = useLocation();
 
   const config = useConfig();
   const [sidebarOpened, setSidebarOpened] = useState(defaultOpened ?? false);
@@ -207,7 +208,7 @@ export const Menubar = ({
                 />
                 <Menu.Item
                   label="Slack Community"
-                  href="http://slack.labelstud.io.s3-website-us-east-1.amazonaws.com?source=product-menu"
+                  href="https://join.slack.com/t/label-studio/shared_invite/zt-cr8b7ygm-6L45z7biEBw4HXa5A2b5pw"
                   icon={<LsSlack/>}
                   target="_blank"
                 />

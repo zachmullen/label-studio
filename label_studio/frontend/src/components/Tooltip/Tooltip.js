@@ -6,7 +6,7 @@ import { aroundTransition } from "../../utils/transition";
 import "./Tooltip.styl";
 
 export const Tooltip = forwardRef(
-  ({ title, children, defaultVisible, disabled, style }, ref) => {
+  ({ title, children, alignment, defaultVisible, disabled, style }, ref) => {
     if (!children || Array.isArray(children)) {
       throw new Error("Tooltip does accept a single child only");
     }
@@ -18,7 +18,7 @@ export const Tooltip = forwardRef(
       defaultVisible ? "visible" : null,
     );
     const [injected, setInjected] = useState(false);
-    const [align, setAlign] = useState('top-center');
+    const [align, setAlign] = useState(alignment ?? 'top-center');
 
     const calculatePosition = useCallback(() => {
       const { left, top, align: resultAlign } = alignElements(

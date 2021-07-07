@@ -1,0 +1,22 @@
+.project-menu
+  display flex
+  height 100%
+  align-items stretch
+  font-size 16px
+  padding 5px 0
+  box-sizing border-box
+
+  &__link
+    display flex
+    padding 0 12px
+    align-items center
+    color black
+    opacity 0.6
+    border-radius 4px
+
+    &:global(.active)
+      opacity 1
+      background-color rgba(#000, 0.08)
+
+    &:hover
+      opacity 0.9

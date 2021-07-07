@@ -1,10 +1,11 @@
 import { format } from 'date-fns';
+import { isValid } from 'date-fns/esm';
 import React, { createContext, useCallback, useContext, useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
+import { IconBell } from '../../assets/icons';
 import { useAPI } from "../../providers/ApiProvider";
 import { Block, Elem } from '../../utils/bem';
 import './VersionNotifier.styl';
-import { IconBell } from '../../assets/icons';
 
 const VersionContext = createContext();
 
@@ -19,7 +20,8 @@ export const VersionProvider = ({children}) => {
 
   const fetchVersion = useCallback(async () => {
     const response = await api.callApi("version");
-    const data = response['label-studio-os-package'];
+    const data = response['label-studio-enterprise-package'];
+    const date = new Date(data.latest_version_upload_time);
 
     dispatch({
       type: "fetch-version",
@@ -27,7 +29,7 @@ export const VersionProvider = ({children}) => {
         version: data.version,
         latestVersion: data.latest_version_from_pypi,
         newVersion: data.current_version_is_outdated,
-        updateTime: format(new Date(data.latest_version_upload_time), 'MMM d'),
+        updateTime: isValid(date) ? format(date, 'MMM d') : null,
       },
     });
   }, [api]);

@@ -1,8 +1,8 @@
-import React, { createElement } from 'react';
+import { createElement, forwardRef } from 'react';
 import { cn } from '../../../../utils/bem';
 import './Label.styl';
 
-const Label = ({text, children, required, placement, description, size, large, style, simple, flat}) => {
+const Label = forwardRef(({text, children, required, placement, description, size, large, style, simple, flat}, ref) => {
   const rootClass = cn('label');
   const classList = [rootClass];
   const tagName = simple ? 'div' : 'label';
@@ -18,6 +18,7 @@ const Label = ({text, children, required, placement, description, size, large, s
   classList.push(rootClass.mod(mods));
 
   return createElement(tagName, {
+    ref,
     'className': classList.join(" "),
     'data-required': required,
     'style': style,
@@ -32,6 +33,6 @@ const Label = ({text, children, required, placement, description, size, large, s
       <div className={rootClass.elem('field')}>{children}</div>
     </>
   ));
-};
+});
 
 export default Label;

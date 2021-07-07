@@ -8,13 +8,12 @@
 .menu-header
   top 0
   height var(--header-height)
-  z-index 1000
+  z-index 2
   position sticky
   display flex
-  box-sizing border-box
   background-color #fff
   justify-content space-evenly
-  border-bottom 1px solid rgba(0, 0, 0, 0.1)
+  box-shadow 0 1px 0 0 rgba(0, 0, 0, 0.1)
 
   &__context
     flex 1
@@ -22,12 +21,20 @@
     padding 0 20px
     align-items center
     justify-content space-between
+    // don't shrink any part of menu, except long name in breadcrumb (see Breadcrumbs.styl)
+    min-width 0
+    *
+      min-width 0
 
   &__context-item
     &_left, &_right
       height 100%
       display flex
       align-items center
+    // especially don't shrink right menu
+    &_right
+      white-space nowrap
+      flex-shrink 0
 
   &__trigger
     display flex

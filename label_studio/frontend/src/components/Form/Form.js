@@ -161,14 +161,14 @@ export default class Form extends React.Component {
     }
 
     const requestBody = fields.reduce((res, { name, field, skip }) => {
-      const skipField = skip || (this.props.skipEmpty && !field.value);
+      const skipField = (skip || (this.props.skipEmpty && !field.value));
 
       if (full === true || !skipField) {
         const value = (() => {
           const inputValue = field.value;
 
           if (['checkbox', 'radio'].includes(field.type)) {
-            if (inputValue !== null && inputValue !== 'on' && inputValue !== 'true') {
+            if (inputValue !== null &&  inputValue !== 'on') {
               return field.checked ? inputValue : null;
             }
 

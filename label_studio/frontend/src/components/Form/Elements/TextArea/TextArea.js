@@ -1,4 +1,3 @@
-import React from 'react';
 import { cn } from '../../../../utils/bem';
 import { FormField } from '../../FormField';
 import { default as Label } from '../Label/Label';
@@ -6,7 +5,7 @@ import { default as Label } from '../Label/Label';
 const TextArea = ({label, className, validate, required, skip, labelProps, ...props}) => {
   const classList = [
     cn('textarea'),
-    className
+    className,
   ].join(" ").trim();
 
   const input = (

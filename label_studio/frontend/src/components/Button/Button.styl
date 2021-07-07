@@ -13,6 +13,7 @@
   text-decoration none
   transition all 100ms ease
   justify-content center
+  box-sizing border-box
   color var(--button-color) !important
   box-shadow inset 0px -1px 0px rgba(#000, 0.1), inset 0px 0px 0px 1px rgba(#000, 0.15)
 
@@ -33,9 +34,11 @@
     box-shadow 0px 0px 0px 6px rgba($accent_color, 0.2), inset 0px -1px 0px rgba(#000, 0.1), inset 0px 0px 0px 1px rgba(#000, 0.15), inset 0px 0px 0px 1px rgba($accent_color, 0.2)
 
   &_waiting,
-  &:disabled
+  &:disabled,
+  &_disabled
     --button-color rgba(#000, 0.5)
     background-color #efefef
+    pointer-events none
 
   &__extra
     font-size 14px
@@ -90,10 +93,6 @@
       box-shadow none
       box-shadow inset 0px -1px 0px rgba(#000, 0.1)
 
-      &:disabled
-        --button-color rgba(#fff, 0.8)
-        background-color #BBBBBB
-
       &:hover:not(:disabled)
         background linear-gradient(0deg, rgba(#fff, 0.1), rgba(#fff, 0.1)), $accent_color
         box-shadow 0px 2px 4px rgba($accent_color, 0.3), inset 0px -1px 0px rgba(#000, 0.1)
@@ -112,14 +111,30 @@
       --button-color #fff
       background-color $danger_color
 
+      &:active
+        background darken($danger_color, 0.5)
+
+    &_ghost
+      border none
+      background-color transparent
+      box-shadow none
+
   &_look_danger:disabled,
-  &_look_danger&_waiting
+  &_look_danger&_waiting,
+  &_look_danger&_disabled
     --button-color rgba($danger_color, 0.5)
 
   &_look_destructive:disabled,
-  &_look_destructive&_waiting
+  &_look_destructive&_waiting,
+  &_look_destructive&_disabled
     --button-color rgba(#fff, 0.5)
     background-color $danger_color
+
+  &_look_primary:disabled,
+  &_look_primary&_waiting,
+  &_look_primary&_disabled
+    --button-color rgba(#fff, 0.8)
+    background-color #BBBBBB
 
   &_size
     &_compact

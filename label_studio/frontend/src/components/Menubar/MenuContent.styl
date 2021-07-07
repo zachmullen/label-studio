@@ -1,13 +1,16 @@
 .content-wrapper
   display flex
   min-height 100vh
+  min-width 1200px
   flex-direction column
 
   &__body
     flex 1
+    z-index 1
     display flex
     min-width 100%
     min-height 100%
+    position relative
     flex-direction column
     max-height calc(100vh - var(--header-height))
 

@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { generatePath, useHistory } from 'react-router';
-import { NavLink } from 'react-router-dom';
 import { Button } from '../../components/Button/Button';
 import { modal } from '../../components/Modal/Modal';
-import { Space } from '../../components/Space/Space';
+import { ProjectMenu } from '../../components/ProjectMenu/ProjectMenu';
 import { useLibrary } from '../../providers/LibraryProvider';
 import { useProject } from '../../providers/ProjectProvider';
-import { useContextProps, useFixedLocation, useParams } from '../../providers/RoutesProvider';
-import { addAction, addCrumb, deleteAction, deleteCrumb } from '../../services/breadrumbs';
+import { useContextProps, useParams } from '../../providers/RoutesProvider';
 import { Block, Elem } from '../../utils/bem';
+import { isDefined } from '../../utils/helpers';
 import { ImportModal } from '../CreateProject/Import/ImportModal';
 import { ExportPage } from '../ExportPage/ExportPage';
 import { APIConfig } from './api-config';
@@ -119,39 +118,12 @@ DataManagerPage.pages = {
   ExportPage,
   ImportModal,
 };
-DataManagerPage.context = ({dmRef}) => {
-  const location = useFixedLocation();
+DataManagerPage.context = () => {
+  const params = useParams();
   const {project} = useProject();
-  const [mode, setMode] = useState(dmRef?.mode ?? "explorer");
 
-  const links = {
-    '/settings': 'Settings',
-    '/data/import': "Import",
-    '/data/export': 'Export',
-  };
-
-  const updateCrumbs = (currentMode) => {
-    const isExplorer = currentMode === 'explorer';
-    const dmPath = location.pathname.replace(DataManagerPage.path, '');
-
-    if (isExplorer) {
-      deleteAction(dmPath);
-      deleteCrumb('dm-crumb');
-    } else {
-      addAction(dmPath, (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        dmRef?.store?.closeLabeling?.();
-      });
-      addCrumb({
-        key: "dm-crumb",
-        title: "Labeling",
-      });
-    }
-  };
-
-  const showLabelingInstruction = (currentMode) => {
-    const isLabelStream = currentMode === 'labelstream';
+  const showLabelingInstruction = useCallback((mode) => {
+    const isLabelStream = mode === 'labeling';
     const {expert_instruction, show_instruction} = project;
 
     if (isLabelStream && show_instruction && expert_instruction) {
@@ -161,48 +133,17 @@ DataManagerPage.context = ({dmRef}) => {
         style: { width: 680 },
       });
     }
-  };
+  }, [project]);
 
-  const onDMModeChanged = (currentMode) => {
-    setMode(currentMode);
-    updateCrumbs(currentMode);
-    showLabelingInstruction(currentMode);
-  };
+  const onDMModeChanged = useCallback((mode) => {
+    showLabelingInstruction(mode);
+  }, [showLabelingInstruction]);
 
   useEffect(() => {
-    if (dmRef) {
-      dmRef.on('modeChanged', onDMModeChanged);
+    if (isDefined(params.mode)) {
+      onDMModeChanged(params.mode);
     }
+  }, [params.mode, onDMModeChanged]);
 
-    return () => {
-      dmRef?.off?.('modeChanged', onDMModeChanged);
-    };
-  }, [dmRef, project]);
-
-  return project && project.id ? (
-    <Space size="small">
-      {(project.expert_instruction && mode !== 'explorer') && (
-        <Button size="compact" onClick={() => {
-          modal({
-            title: "Instructions",
-            body: () => <div dangerouslySetInnerHTML={{__html: project.expert_instruction}}/>,
-          });
-        }}>
-          Instructions
-        </Button>
-      )}
-
-      {Object.entries(links).map(([path, label]) => (
-        <Button
-          key={path}
-          tag={NavLink}
-          size="compact"
-          to={`/projects/${project.id}${path}`}
-          data-external
-        >
-          {label}
-        </Button>
-      ))}
-    </Space>
-  ) : null;
+  return <ProjectMenu/>;
 };

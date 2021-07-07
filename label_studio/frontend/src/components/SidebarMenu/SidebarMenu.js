@@ -6,7 +6,7 @@ import './SidebarMenu.styl';
 export const SidebarMenu = ({children, menu, path, menuItems}) => {
   const rootClass = cn('sidebar-menu');
 
-  return (
+  return (menu || menuItems) ? (
     <div className={rootClass}>
       <div className={rootClass.elem('navigation')}>
         <Menu>
@@ -17,5 +17,5 @@ export const SidebarMenu = ({children, menu, path, menuItems}) => {
         {children}
       </div>
     </div>
-  );
+  ) : children;
 };
