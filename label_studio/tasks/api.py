@@ -208,9 +208,6 @@ class AnnotationsListAPI(RequestDebugLogMixin, generics.ListCreateAPIView):
         task = get_object_with_check_and_log(self.request, Task, pk=self.kwargs['pk'])
         # annotator has write access only to annotations and it can't be checked it after serializer.save()
         user = self.request.user
-        # Release task if it has been taken at work (it should be taken by the same user, or it makes sentry error
-        logger.debug(f'User={user} releases task={task}')
-        task.release_lock(user)
 
         # updates history
         update_id = self.request.user.id
@@ -241,6 +238,11 @@ class AnnotationsListAPI(RequestDebugLogMixin, generics.ListCreateAPIView):
         # create annotation
         logger.debug(f'User={self.request.user}: save annotation')
         annotation = ser.save(**extra_args)
+
+        # Release task if it has been taken at work (it should be taken by the same user, or it makes sentry error
+        logger.debug(f'User={user} releases task={task}')
+        task.release_lock(user)
+
         logger.debug(f'Save activity for user={self.request.user}')
         self.request.user.activity_at = timezone.now()
         self.request.user.save()
