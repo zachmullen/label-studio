@@ -36,5 +36,12 @@ module.exports = {
     "semi": [2, "always"],
     '@typescript-eslint/indent': ["error", 2],
     "comma-dangle": ["error", "always-multiline"],
+    "object-curly-spacing": ["error", "always"],
+    "array-bracket-spacing": ["error", "always"],
+    "object-shorthand": ["error", "always"],
+    "eqeqeq": ["error", "always"],
+    "indent": ["error", 2, {
+      "SwitchCase": 1,
+    }],
   },
 };

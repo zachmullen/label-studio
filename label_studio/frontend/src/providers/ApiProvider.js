@@ -11,7 +11,7 @@ export const ApiContext = createContext();
 ApiContext.displayName = 'ApiContext';
 
 const errorFormatter = (result) => {
-  const {response} = result;
+  const { response } = result;
   const isShutdown = String(response?.detail ?? result?.error) === 'Failed to fetch';
 
   return {
@@ -37,7 +37,7 @@ const handleError = async (response, showModal = true) => {
   }
 
   if (showModal) {
-    const {isShutdown, ...formattedError} = errorFormatter(result);
+    const { isShutdown, ...formattedError } = errorFormatter(result);
 
     modal({
       allowClose: !isShutdown,
@@ -51,14 +51,13 @@ const handleError = async (response, showModal = true) => {
       ) : (
         <ErrorWrapper {...formattedError}/>
       ),
-      simple: true,
       style: { width: 680 },
     });
   }
 };
 
-export const ApiProvider = forwardRef(({children}, ref) => {
-  const [error, setError] = useState(null);
+export const ApiProvider = forwardRef(({ children }, ref) => {
+  const [ error, setError ] = useState(null);
 
   const callApi = useCallback(async (method, { params = {}, errorFilter, ...rest } = {}) => {
     setError(null);
@@ -88,13 +87,13 @@ export const ApiProvider = forwardRef(({children}, ref) => {
     isValidMethod(...args) {
       return API.isValidMethod(...args);
     },
-  }), [error]);
+  }), [ error ]);
 
   useEffect(() => {
     if (ref) {
       ref.current = contextValue;
     }
-  }, [ref]);
+  }, [ ref ]);
 
   return (
     <ApiContext.Provider value={contextValue}>

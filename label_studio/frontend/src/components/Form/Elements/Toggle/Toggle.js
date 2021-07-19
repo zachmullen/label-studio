@@ -4,17 +4,17 @@ import { FormField } from '../../FormField';
 import { default as Label } from '../Label/Label';
 import './Toggle.styl';
 
-const Toggle = forwardRef(({className, label, labelProps, description, checked, defaultChecked, onChange, validate, required, skip, ...props}, ref) => {
+const Toggle = forwardRef(({ className, label, labelProps, description, checked, defaultChecked, onChange, validate, required, skip, ...props }, ref) => {
   const rootClass = cn('toggle');
-  const initialChecked = useMemo(() => defaultChecked ?? checked ?? false, [defaultChecked, checked]);
-  const [isChecked, setIsChecked] = useState(defaultChecked ?? checked ?? false);
+  const initialChecked = useMemo(() => defaultChecked ?? checked ?? false, [ defaultChecked, checked ]);
+  const [ isChecked, setIsChecked ] = useState(defaultChecked ?? checked ?? false);
 
-  const classList = [rootClass];
+  const classList = [ rootClass ];
   const mods = {};
 
   useEffect(() => {
     setIsChecked(initialChecked);
-  }, [initialChecked]);
+  }, [ initialChecked ]);
 
   if (isChecked) mods.checked = isChecked;
   mods.disabled = props.disabled;
