@@ -7,13 +7,13 @@ import { useProject } from '../../../providers/ProjectProvider';
 import { StorageCard } from './StorageCard';
 import { StorageForm } from './StorageForm';
 
-export const StorageSet = ({title, target, rootClass, buttonLabel}) => {
+export const StorageSet = ({ title, target, rootClass, buttonLabel }) => {
   const api = useContext(ApiContext);
-  const {project} = useProject();
-  const [storages, setStorages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [loaded, setLoaded] = useState(false);
-  const [storageTypes, setStorageTypes] = useState([]);
+  const { project } = useProject();
+  const [ storages, setStorages ] = useState([]);
+  const [ loading, setLoading ] = useState(false);
+  const [ loaded, setLoaded ] = useState(false);
+  const [ storageTypes, setStorageTypes ] = useState([]);
 
   useEffect(() => {
     api.callApi('storageTypes', {
@@ -53,7 +53,7 @@ export const StorageSet = ({title, target, rootClass, buttonLabel}) => {
     }
 
     setLoading(false);
-  }, [project]);
+  }, [ project ]);
 
   const showStorageFormModal = useCallback((storage) => {
     const action = storage ? "Edit" : "Add";
@@ -85,11 +85,11 @@ export const StorageSet = ({title, target, rootClass, buttonLabel}) => {
         </>
       ),
     });
-  }, [project, fetchStorages, target, rootClass]);
+  }, [ project, fetchStorages, target, rootClass ]);
 
   const onEditStorage = useCallback(async (storage) => {
     showStorageFormModal(storage);
-  }, [showStorageFormModal]);
+  }, [ showStorageFormModal ]);
 
   const onDeleteStorage = useCallback(async (storage) => {
     confirm({
@@ -108,11 +108,11 @@ export const StorageSet = ({title, target, rootClass, buttonLabel}) => {
         if (response !== null) fetchStorages();
       },
     });
-  }, [fetchStorages]);
+  }, [ fetchStorages ]);
 
   useEffect(() => {
     fetchStorages();
-  }, [fetchStorages]);
+  }, [ fetchStorages ]);
 
   return (
     <Columns.Column title={title}>

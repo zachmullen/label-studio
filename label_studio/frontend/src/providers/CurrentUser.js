@@ -3,22 +3,22 @@ import { useAPI } from "./ApiProvider";
 
 const CurrentUserContext = createContext();
 
-export const CurrentUserProvider = ({children}) => {
+export const CurrentUserProvider = ({ children }) => {
   const api = useAPI();
-  const [user, setUser] = useState();
+  const [ user, setUser ] = useState();
 
   const fetch = useCallback(() => {
     api.callApi('me').then(user => {
       setUser(user);
     });
-  }, [api.callApi]);
+  }, [ api.callApi ]);
 
   useEffect(() => {
     fetch();
-  }, [fetch]);
+  }, [ fetch ]);
 
   return (
-    <CurrentUserContext.Provider value={{user, fetch}}>
+    <CurrentUserContext.Provider value={{ user, fetch }}>
       {children}
     </CurrentUserContext.Provider>
   );

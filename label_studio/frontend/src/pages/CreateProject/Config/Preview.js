@@ -32,7 +32,7 @@ export const Preview = ({ config, data, error }) => {
           id: 1,
           data,
         },
-        onLabelStudioLoad: function(LS) {
+        onLabelStudioLoad(LS) {
           LS.settings.bottomSidePanel = true;
           var c = LS.annotationStore.addAnnotation({
             userGenerate: true,
@@ -43,7 +43,7 @@ export const Preview = ({ config, data, error }) => {
     } catch(e) {
       console.error(e);
     }
-  }, [config, data, LabelStudio, lsfRoot]);
+  }, [ config, data, LabelStudio, lsfRoot ]);
 
   return (
     <div className={configClass.elem("preview")}>

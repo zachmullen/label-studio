@@ -59,7 +59,7 @@ export const Button = React.forwardRef(
         default:
           return icon;
       }
-    }, [icon, size]);
+    }, [ icon, size ]);
 
     return (
       <Block

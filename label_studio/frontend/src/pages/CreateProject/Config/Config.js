@@ -233,12 +233,12 @@ const ConfigureColumns = ({ columns, template }) => {
 };
 
 const Configurator = ({ columns, config, project, template, setTemplate, onBrowse, onSaveClick, onValidate, disableSaveButton }) => {
-  const [configure, setConfigure] = React.useState(isEmptyConfig(config) ? "code" : "visual");
-  const [visualLoaded, loadVisual] = React.useState(configure === "visual");
-  const [waiting, setWaiting] = React.useState(false);
-  const [error, setError] = React.useState();
-  const [configToCheck, setConfigToCheck] = React.useState();
-  const [data, setData] = React.useState();
+  const [ configure, setConfigure ] = React.useState(isEmptyConfig(config) ? "code" : "visual");
+  const [ visualLoaded, loadVisual ] = React.useState(configure === "visual");
+  const [ waiting, setWaiting ] = React.useState(false);
+  const [ error, setError ] = React.useState();
+  const [ configToCheck, setConfigToCheck ] = React.useState();
+  const [ data, setData ] = React.useState();
   const debounceTimer = React.useRef();
   const api = useAPI();
 
@@ -246,7 +246,7 @@ const Configurator = ({ columns, config, project, template, setTemplate, onBrows
     // config may change during init, so wait for that, but for a very short time only
     debounceTimer.current = window.setTimeout(() => setConfigToCheck(config), configToCheck ? 500 : 30);
     return () => window.clearTimeout(debounceTimer.current);
-  }, [config]);
+  }, [ config ]);
 
   React.useEffect(async () => {
     if (!configToCheck) return;
@@ -266,7 +266,7 @@ const Configurator = ({ columns, config, project, template, setTemplate, onBrows
     onValidate?.(validation);
 
     const sample = await api.callApi("createSampleTask", {
-      params: {pk: project.id },
+      params: { pk: project.id },
       body: { label_config: configToCheck },
       errorFilter: () => true,
     });
@@ -278,9 +278,9 @@ const Configurator = ({ columns, config, project, template, setTemplate, onBrows
       // @todo but for now it's extremely slow in /sample-task endpoint
       setError(sample?.response);
     }
-  }, [configToCheck]);
+  }, [ configToCheck ]);
 
-  React.useEffect(() => { setError(null); }, [template, config]);
+  React.useEffect(() => { setError(null); }, [ template, config ]);
 
   // code should be reloaded on every render because of uncontrolled codemirror
   // visuals should be always rendered after first render
@@ -340,7 +340,7 @@ const Configurator = ({ columns, config, project, template, setTemplate, onBrows
         </div>
         {disableSaveButton !== true && onSaveClick && (
           <Form.Actions size="small" extra={configure === "code" && extra} valid>
-            <Button look="primary" size="compact" style={{width: 120}} onClick={onSave} waiting={waiting}>
+            <Button look="primary" size="compact" style={{ width: 120 }} onClick={onSave} waiting={waiting}>
               Save
             </Button>
           </Form.Actions>
@@ -352,27 +352,27 @@ const Configurator = ({ columns, config, project, template, setTemplate, onBrows
 };
 
 export const ConfigPage = ({ config: initialConfig = "", columns: externalColumns, project, onUpdate, onSaveClick, onValidate, disableSaveButton, show = true }) => {
-  const [config, _setConfig] = React.useState("");
-  const [mode, setMode] = React.useState("list"); // view | list
-  const [selectedGroup, setSelectedGroup] = React.useState(null);
-  const [selectedRecipe, setSelectedRecipe] = React.useState(null);
-  const [template, setCurrentTemplate] = React.useState(null);
+  const [ config, _setConfig ] = React.useState("");
+  const [ mode, setMode ] = React.useState("list"); // view | list
+  const [ selectedGroup, setSelectedGroup ] = React.useState(null);
+  const [ selectedRecipe, setSelectedRecipe ] = React.useState(null);
+  const [ template, setCurrentTemplate ] = React.useState(null);
   const api = useAPI();
 
   const setConfig = React.useCallback(config => {
     _setConfig(config);
     onUpdate(config);
-  }, [_setConfig, onUpdate]);
+  }, [ _setConfig, onUpdate ]);
 
   const setTemplate = React.useCallback(config => {
     const tpl = new Template({ config });
     tpl.onConfigUpdate = setConfig;
     setConfig(config);
     setCurrentTemplate(tpl);
-  }, [setConfig, setCurrentTemplate]);
+  }, [ setConfig, setCurrentTemplate ]);
 
-  const [columns, setColumns] = React.useState();
-  React.useEffect(() => { if (externalColumns?.length) setColumns(externalColumns); }, [externalColumns]);
+  const [ columns, setColumns ] = React.useState();
+  React.useEffect(() => { if (externalColumns?.length) setColumns(externalColumns); }, [ externalColumns ]);
 
   React.useEffect(async () => {
     if (!project || columns) return;
@@ -384,13 +384,13 @@ export const ConfigPage = ({ config: initialConfig = "", columns: externalColumn
     if (res?.common_data_columns) {
       setColumns(res.common_data_columns);
     }
-  }, [columns, project]);
+  }, [ columns, project ]);
 
   React.useEffect(() => {
     if (columns?.length && template) {
       template.fixColumns(columns);
     }
-  }, [columns, template]);
+  }, [ columns, template ]);
 
   const onSelectRecipe = React.useCallback(recipe => {
     if (!recipe) {

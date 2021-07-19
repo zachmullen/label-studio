@@ -38,8 +38,8 @@ const TemplatesInGroup = ({ templates, group, onSelectRecipe }) => {
 };
 
 export const TemplatesList = ({ selectedGroup, selectedRecipe, onCustomTemplate, onSelectGroup, onSelectRecipe }) => {
-  const [groups, setGroups] = React.useState([]);
-  const [templates, setTemplates] = React.useState();
+  const [ groups, setGroups ] = React.useState([]);
+  const [ templates, setTemplates ] = React.useState();
   const api = useAPI();
 
   React.useEffect(async () => {

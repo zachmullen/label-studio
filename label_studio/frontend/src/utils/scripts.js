@@ -6,7 +6,7 @@ const loadedScripts = new Set();
  * @param {HTMLScriptElement} script
  */
 const isScriptTag = (script) => {
-  return [null, undefined, '', 'text/javascript'].includes(script.type);
+  return [ null, undefined, '', 'text/javascript' ].includes(script.type);
 };
 
 /**
@@ -14,7 +14,7 @@ const isScriptTag = (script) => {
  * @param {String} scriptContent
  */
 const createScriptLink = (scriptContent) => {
-  const blob = new Blob([scriptContent], {type: "text/javascript"});
+  const blob = new Blob([ scriptContent ], { type: "text/javascript" });
   return URL.createObjectURL(blob).toString();
 };
 
@@ -64,7 +64,7 @@ const swapScripts = (targetScript, sourceScript) => {
     // We respect async attribute, so we only wait for script to load
     // when it's explicitly no async attribute
     if (!sourceScript.async) {
-      const onScriptLoaded = ({type}) => {
+      const onScriptLoaded = ({ type }) => {
         newScript.removeEventListener('load', onScriptLoaded);
         newScript.removeEventListener('error', onScriptLoaded);
         resolve(type === 'error' ? false : newScript);
@@ -98,7 +98,7 @@ const swapScripts = (targetScript, sourceScript) => {
  * @param {HTMLScriptElement} scriptTag
  * @param {Function} onReplace
  */
-export const replaceScript = async (scriptTag, {sourceScript, forceUpdate = false} = {}) => {
+export const replaceScript = async (scriptTag, { sourceScript, forceUpdate = false } = {}) => {
   sourceScript = sourceScript ?? scriptTag;
 
   if (!isScriptValid(scriptTag, forceUpdate)) return;

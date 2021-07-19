@@ -34,8 +34,8 @@ const setTags = () => {
   }
 
   if (APP_SETTINGS.version) {
-    Object.entries(APP_SETTINGS.version).forEach(([packageName, data]: [string, any]) => {
-      const {version, commit} = data ?? {};
+    Object.entries(APP_SETTINGS.version).forEach(([ packageName, data ]: [string, any]) => {
+      const { version, commit } = data ?? {};
 
       if (version) {
         tags['version-' + packageName] = version;

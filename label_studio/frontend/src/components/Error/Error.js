@@ -8,18 +8,18 @@ import "./Error.styl";
 
 const SLACK_INVITE_URL = "https://join.slack.com/t/label-studio/shared_invite/zt-cr8b7ygm-6L45z7biEBw4HXa5A2b5pw";
 
-export const ErrorWrapper = ({title, message, errorId, stacktrace, validation, version, onGoBack, onReload, possum = false}) => {
+export const ErrorWrapper = ({ title, message, errorId, stacktrace, validation, version, onGoBack, onReload, possum = false }) => {
   const preparedStackTrace = useMemo(() => {
     return (stacktrace ?? "").trim();
-  }, [stacktrace]);
+  }, [ stacktrace ]);
 
-  const [copied, setCopied] = useState(false);
+  const [ copied, setCopied ] = useState(false);
 
   const copyStacktrace = useCallback(() => {
     setCopied(true);
     copyText(preparedStackTrace);
     setTimeout(() => setCopied(false), 1200);
-  }, [preparedStackTrace]);
+  }, [ preparedStackTrace ]);
 
   return (
     <Block name="error-message">
@@ -50,14 +50,14 @@ export const ErrorWrapper = ({title, message, errorId, stacktrace, validation, v
 
       {validation?.length && (
         <Elem tag="ul" name="validation">
-          {validation.map(([field, errors]) => (
+          {validation.map(([ field, errors ]) => (
             <Fragment key={field}>
               {[].concat(errors).map((err, i) => (
                 <Elem
                   tag="li"
                   key={i}
                   name="message"
-                  dangerouslySetInnerHTML={{__html: err}}
+                  dangerouslySetInnerHTML={{ __html: err }}
                 />
               ))}
             </Fragment>
@@ -81,7 +81,7 @@ export const ErrorWrapper = ({title, message, errorId, stacktrace, validation, v
           </Elem>
 
           <Space size="small">
-            {preparedStackTrace && <Button disabled={copied} onClick={copyStacktrace} style={{width: 180}}>
+            {preparedStackTrace && <Button disabled={copied} onClick={copyStacktrace} style={{ width: 180 }}>
               {copied ? "Copied" : "Copy Stacktrace"}
             </Button>}
             {onGoBack && <Button onClick={onGoBack}>Go Back</Button>}

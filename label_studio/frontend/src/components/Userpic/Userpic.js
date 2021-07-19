@@ -21,9 +21,9 @@ export const Userpic = forwardRef(({
   ...rest
 }, ref) => {
   const imgRef = useRef();
-  const [finalSrc, setFinalSrc] = useState(user?.avatar ?? src);
-  const [imgVisible, setImgVisible] = useState(false);
-  const [nameVisible, setNameVisible] = useState(true);
+  const [ finalSrc, setFinalSrc ] = useState(user?.avatar ?? src);
+  const [ imgVisible, setImgVisible ] = useState(false);
+  const [ nameVisible, setNameVisible ] = useState(true);
 
   if (size) {
     style = Object.assign({ width: size, height: size, fontSize: size * 0.4 }, style);
@@ -31,17 +31,17 @@ export const Userpic = forwardRef(({
 
   const displayName = useMemo(() => {
     return userDisplayName(user);
-  }, [user]);
+  }, [ user ]);
 
   const background = useMemo(() => {
     if (isDefined(user.id)) {
-      const color = localStorage.getItem(`userpic-color-${user.id}`) ?? chroma.average([chroma.random(), "#cfcfcf"]);
+      const color = localStorage.getItem(`userpic-color-${user.id}`) ?? chroma.average([ chroma.random(), "#cfcfcf" ]);
       localStorage.setItem(`userpic-color-${user.id}`, color);
       return color;
     }
 
     return null;
-  }, [user, useRandomBackground]);
+  }, [ user, useRandomBackground ]);
 
   const textColor = useMemo(() => {
     if (background) {
@@ -51,27 +51,27 @@ export const Userpic = forwardRef(({
     }
 
     return null;
-  }, [background]);
+  }, [ background ]);
 
   const onImageLoaded = useCallback(() => {
     setImgVisible(true);
     if (finalSrc !== FALLBACK_IMAGE) setNameVisible(false);
-  }, [finalSrc]);
+  }, [ finalSrc ]);
 
   const stylesheet = { ...(style ?? {}), background, color: textColor };
 
   const userpic = (
-    <Block ref={ref} name="userpic" mix={className} mod={{faded}} style={stylesheet} {...rest}>
+    <Block ref={ref} name="userpic" mix={className} mod={{ faded }} style={stylesheet} {...rest}>
       <Elem
         tag="img"
         name="avatar"
         ref={imgRef}
         src={finalSrc}
         alt={(displayName ?? "").toUpperCase()}
-        style={{opacity: imgVisible ? (faded ? 0.3 : 1) : 0}}
+        style={{ opacity: imgVisible ? (faded ? 0.3 : 1) : 0 }}
         onLoad={onImageLoaded}
         onError={() => setFinalSrc(FALLBACK_IMAGE) }
-        mod={{faded}}
+        mod={{ faded }}
       />
       {nameVisible && (
         <Elem tag="span" name="username">
@@ -79,9 +79,9 @@ export const Userpic = forwardRef(({
         </Elem>
       )}
 
-      {badge && Object.entries(badge).map(([align, content], i) => {
+      {badge && Object.entries(badge).map(([ align, content ], i) => {
         return (
-          <Elem key={`badge-${i}`} name="badge" mod={{[align]: true}}>
+          <Elem key={`badge-${i}`} name="badge" mod={{ [align]: true }}>
             {content}
           </Elem>
         );
@@ -97,7 +97,7 @@ export const Userpic = forwardRef(({
     } else {
       return username;
     }
-  }, [user, username]);
+  }, [ user, username ]);
 
   return (showUsername && userFullName) ? (
     <Tooltip title={userFullName}>

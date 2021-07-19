@@ -17,7 +17,7 @@ export const DropdownTrigger = forwardRef(
   ) => {
     const dropdownRef = ref ?? dropdown ?? useRef();
     const triggerEL = Children.only(children);
-    const [childset] = useState(new Set());
+    const [ childset ] = useState(new Set());
 
     /** @type {import('react').RefObject<HTMLElement>} */
     const triggerRef = triggerEL.props.ref ?? useRef();
@@ -36,14 +36,14 @@ export const DropdownTrigger = forwardRef(
       );
 
       return triggerClicked || dropdownClicked || childDropdownClicked;
-    }, [triggerRef, dropdownRef]);
+    }, [ triggerRef, dropdownRef ]);
 
     const handleClick = useCallback((e) => {
       if (!closeOnClickOutside) return;
       if (targetIsInsideDropdown(e.target)) return;
 
       dropdownRef.current?.close?.();
-    }, [closeOnClickOutside, targetIsInsideDropdown]);
+    }, [ closeOnClickOutside, targetIsInsideDropdown ]);
 
     const handleToggle = useCallback((e) => {
       const inDropdown = dropdownRef.current?.dropdown?.contains?.(e.target);
@@ -53,7 +53,7 @@ export const DropdownTrigger = forwardRef(
       if (toggle === false) return dropdownRef?.current?.open();
 
       dropdownRef?.current?.toggle();
-    }, [dropdownRef]);
+    }, [ dropdownRef ]);
 
     const triggerClone = cloneElement(triggerEL, {
       ...triggerEL.props,
@@ -73,7 +73,7 @@ export const DropdownTrigger = forwardRef(
       document.addEventListener("click", handleClick, { capture: true });
       return () =>
         document.removeEventListener("click", handleClick, { capture: true });
-    }, [handleClick]);
+    }, [ handleClick ]);
 
     const contextValue = useMemo(() => ({
       triggerRef,
@@ -83,7 +83,7 @@ export const DropdownTrigger = forwardRef(
       removeChild: (child) => childset.delete(child),
       open: () => dropdownRef?.current?.open?.(),
       close: () => dropdownRef?.current?.close?.(),
-    }), [triggerRef, dropdownRef]);
+    }), [ triggerRef, dropdownRef ]);
 
     useEffect(() => {
       if (!parentDropdown) return;

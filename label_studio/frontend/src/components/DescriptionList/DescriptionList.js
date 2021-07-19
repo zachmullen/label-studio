@@ -2,7 +2,7 @@ import React from 'react';
 import { cn } from '../../utils/bem';
 import './DescriptionList.styl';
 
-export const DescriptionList = ({style, className, children}) => {
+export const DescriptionList = ({ style, className, children }) => {
   return (
     <dl className={cn('dl').mix(className)} style={style}>
       {children}

@@ -22,7 +22,7 @@ const downloadFile = (blob, filename) => {
   link.click();
 };
 
-const {Block, Elem} = BemWithSpecifiContext();
+const { Block, Elem } = BemWithSpecifiContext();
 
 const wait = () => new Promise(resolve => setTimeout(resolve, 5000));
 
@@ -32,11 +32,11 @@ export const ExportPage = () => {
   const pageParams = useParams();
   const api = useAPI();
 
-  const [previousExports, setPreviousExports] = useState([]);
-  const [downloading, setDownloading] = useState(false);
-  const [downloadingMessage, setDownloadingMessage] = useState(false);
-  const [availableFormats, setAvailableFormats] = useState([]);
-  const [currentFormat, setCurrentFormat] = useState('JSON');
+  const [ previousExports, setPreviousExports ] = useState([]);
+  const [ downloading, setDownloading ] = useState(false);
+  const [ downloadingMessage, setDownloadingMessage ] = useState(false);
+  const [ availableFormats, setAvailableFormats ] = useState([]);
+  const [ currentFormat, setCurrentFormat ] = useState('JSON');
 
   /** @type {import('react').RefObject<Form>} */
   const form = useRef();
@@ -79,7 +79,7 @@ export const ExportPage = () => {
         params: {
           pk: pageParams.id,
         },
-      }).then(({export_files}) => {
+      }).then(({ export_files }) => {
         setPreviousExports(export_files.slice(0, 1));
       });
 
@@ -92,7 +92,7 @@ export const ExportPage = () => {
         setCurrentFormat(formats[0]?.name);
       });
     }
-  }, [pageParams]);
+  }, [ pageParams ]);
 
   // const formatSelect = (
   //   <Label text="Export format" style={{display: "block", width: "mix-content"}} flat>
@@ -147,7 +147,7 @@ export const ExportPage = () => {
         history.replace(`${path}${search !== '?' ? search : ''}`);
       }}
       title="Export data"
-      style={{width: 720}}
+      style={{ width: 720 }}
       closeOnClickOutside={false}
       allowClose={!downloading}
       // footer="Read more about supported export formats in the Documentation."
@@ -173,7 +173,7 @@ export const ExportPage = () => {
         </Form>
 
         <Elem name="footer">
-          <Space style={{width: '100%'}} spread>
+          <Space style={{ width: '100%' }} spread>
             <Elem name="recent">
               {/* {exportHistory} */}
             </Elem>
@@ -200,7 +200,7 @@ export const ExportPage = () => {
   );
 };
 
-const FormatInfo = ({availableFormats, selected, onClick}) => {
+const FormatInfo = ({ availableFormats, selected, onClick }) => {
   return (
     <Block name="formats">
       <Elem name="info">You can export dataset in one of the following formats:</Elem>

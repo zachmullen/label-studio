@@ -21,7 +21,7 @@ export const MultiProvider = (props) => {
     return content;
   }
 
-  [...(props.providers ?? [])].reverse().forEach((provider) => {
+  [ ...(props.providers ?? []) ].reverse().forEach((provider) => {
     content = React.cloneElement(provider, null, content);
   });
 

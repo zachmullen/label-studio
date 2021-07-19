@@ -3,11 +3,11 @@ import { useHistory } from 'react-router';
 import { useFixedLocation } from '../providers/RoutesProvider';
 
 export const useSet = (initialSet = new Set) => {
-  const [set, setSet] = useState(initialSet);
+  const [ set, setSet ] = useState(initialSet);
 
   const stableActions = useMemo(() => {
     const add = (item) => setSet((prevSet) => {
-      return new Set([...Array.from(prevSet), item]);
+      return new Set([ ...Array.from(prevSet), item ]);
     });
 
     const remove = (item) => setSet((prevSet) => {
@@ -17,23 +17,23 @@ export const useSet = (initialSet = new Set) => {
     const toggle = (item) => setSet((prevSet) => {
       return prevSet.has(item)
         ? new Set(Array.from(prevSet).filter((i) => i !== item))
-        : new Set([...Array.from(prevSet), item]);
+        : new Set([ ...Array.from(prevSet), item ]);
     });
 
     return { add, remove, toggle, reset: () => setSet(initialSet) };
-  }, [setSet]);
+  }, [ setSet ]);
 
   const utils = {
-    has: useCallback((item) => set.has(item), [set]),
+    has: useCallback((item) => set.has(item), [ set ]),
     ...stableActions,
   };
 
-  return [set, utils];
+  return [ set, utils ];
 };
 
 export const useRefresh = () => {
   const history = useHistory();
-  const {pathname} = useFixedLocation();
+  const { pathname } = useFixedLocation();
 
   const refresh = useCallback((redirectPath) => {
     history.replace("/");
@@ -43,7 +43,7 @@ export const useRefresh = () => {
     }, 10);
 
     return pathname;
-  }, [pathname]);
+  }, [ pathname ]);
 
   return refresh;
 };

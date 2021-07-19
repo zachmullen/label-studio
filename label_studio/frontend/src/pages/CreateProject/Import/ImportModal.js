@@ -16,8 +16,8 @@ export const Inner = () => {
   const location = useFixedLocation();
   const modal = useRef();
   const refresh = useRefresh();
-  const {project} = useProject();
-  const [waiting, setWaitingStatus] = useState(false);
+  const { project } = useProject();
+  const [ waiting, setWaitingStatus ] = useState(false);
   const api = useAPI();
 
   const { uploading, uploadDisabled, finishUpload, fileIds, pageProps } = useImportPage(project);
@@ -28,7 +28,7 @@ export const Inner = () => {
     const pathname = `${path}${search !== '?' ? search : ''}`;
 
     return refresh(pathname);
-  }, [location, history]);
+  }, [ location, history ]);
 
   const onCancel = useCallback(async () => {
     setWaitingStatus(true);
@@ -43,13 +43,13 @@ export const Inner = () => {
     setWaitingStatus(false);
     modal?.current?.hide();
     backToDM();
-  }, [modal, project, fileIds, backToDM]);
+  }, [ modal, project, fileIds, backToDM ]);
 
   const onFinish = useCallback(async () => {
     const imported = await finishUpload();
     if (!imported) return;
     backToDM();
-  }, [backToDM, finishUpload]);
+  }, [ backToDM, finishUpload ]);
 
   return (
     <Modal

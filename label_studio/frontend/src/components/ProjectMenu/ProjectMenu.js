@@ -5,20 +5,20 @@ import { Block, Elem } from "../../utils/bem";
 import "./ProjectMenu.styl";
 
 const links = {
-  '/data': {label: 'Data Manager' },
-  '/settings': {label: 'Settings',  exact: false },
-  '/data/import': {label: "Import" },
-  '/data/export': {label: 'Export' },
+  '/data': { label: 'Data Manager' },
+  '/settings': { label: 'Settings',  exact: false },
+  '/data/import': { label: "Import" },
+  '/data/export': { label: 'Export' },
 };
 
 export const ProjectMenu = () => {
-  const {project} = useProject();
+  const { project } = useProject();
 
   if (project?.id === undefined) return null;
 
   return (
     <Block name="project-menu">
-      {Object.entries(links).map(([path, {label, exact}]) => (
+      {Object.entries(links).map(([ path, { label, exact } ]) => (
         <Elem
           key={path}
           name="link"

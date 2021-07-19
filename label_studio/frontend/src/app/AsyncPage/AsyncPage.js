@@ -99,7 +99,7 @@ const swapContent = async (oldPage, newPage) => {
   if (currentContent && newContent) {
     await swapNodes(currentContent, newContent);
   } else {
-    await swapNodes(oldPage.body.children[0], newContent, {removeOld: false});
+    await swapNodes(oldPage.body.children[0], newContent, { removeOld: false });
   }
 };
 
@@ -175,7 +175,7 @@ const isVisitable = (target) => {
 };
 
 const locationWithoutHash = () => {
-  const {href} = location;
+  const { href } = location;
   return href.replace(/#(.*)/g, '');
 };
 
@@ -187,7 +187,7 @@ const fetchPage = async (locationUrl) => {
 let currentLocation = locationWithoutHash();
 
 const useStaticContent = (initialContent, onContentLoad) => {
-  const [staticContent, setStaticContent] = useState(initialContent);
+  const [ staticContent, setStaticContent ] = useState(initialContent);
 
   const fetchCallback = useCallback(async (locationUrl) => {
 
@@ -213,7 +213,7 @@ export const AsyncPageContext = createContext(null);
 
 export const AsyncPageConsumer = AsyncPageContext.Consumer;
 
-export const AsyncPage = ({children}) => {
+export const AsyncPage = ({ children }) => {
   const initialContent = document;
 
   const history = useHistory();
@@ -221,7 +221,7 @@ export const AsyncPage = ({children}) => {
   const onLoadCallback = useCallback(() => {
     config.update(window.APP_SETTINGS);
   }, []);
-  const [staticContent, fetchStatic] = useStaticContent(initialContent, onLoadCallback);
+  const [ staticContent, fetchStatic ] = useStaticContent(initialContent, onLoadCallback);
 
   const onLinkClick = useCallback(async (e) => {
     /**@type {HTMLAnchorElement} */
@@ -252,10 +252,10 @@ export const AsyncPage = ({children}) => {
   // useEffect(onPopState, [location]);
 
   useEffect(() => {
-    document.addEventListener('click', onLinkClick, {capture: true});
+    document.addEventListener('click', onLinkClick, { capture: true });
     window.addEventListener('popstate', onPopState);
     return () => {
-      document.removeEventListener('click', onLinkClick, {capture: true});
+      document.removeEventListener('click', onLinkClick, { capture: true });
       window.removeEventListener('popstate', onPopState);
     };
   }, []);

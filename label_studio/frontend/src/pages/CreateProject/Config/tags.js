@@ -62,7 +62,7 @@ const Labels = {
   settings: {
     placeLabelsLeft: {
       title: 'Display labels:',
-      type: ["bottom", "left", "right", "top"],
+      type: [ "bottom", "left", "right", "top" ],
       control: true,
       param: ($control, value) => {
         let $container = $control.parentNode;
@@ -72,8 +72,8 @@ const Labels = {
           $container = $labels.parentNode;
         }
         const $obj = $control.$object;
-        const inline = ["top", "bottom"].includes(value);
-        const reversed = ["top", "left"].includes(value);
+        const inline = [ "top", "bottom" ].includes(value);
+        const reversed = [ "top", "left" ].includes(value);
         const direction = (inline ? "column" : "row") + (reversed ? "-reverse" : "");
         const alreadyApplied = $container.getAttribute("style")?.includes("flex");
         if (!alreadyApplied) {

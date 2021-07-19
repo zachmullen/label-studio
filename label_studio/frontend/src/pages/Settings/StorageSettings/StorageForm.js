@@ -17,10 +17,10 @@ export const StorageForm = forwardRef(({
   /**@type {import('react').RefObject<Form>} */
   const api = useContext(ApiContext);
   const formRef = ref ?? useRef();
-  const [type, setType] = useState(storage?.type ?? storageTypes?.[0]?.name ?? 's3');
-  const [checking, setChecking] = useState(false);
-  const [connectionValid, setConnectionValid] = useState(null);
-  const [formFields, setFormFields] = useState([]);
+  const [ type, setType ] = useState(storage?.type ?? storageTypes?.[0]?.name ?? 's3');
+  const [ checking, setChecking ] = useState(false);
+  const [ connectionValid, setConnectionValid ] = useState(null);
+  const [ formFields, setFormFields ] = useState([]);
 
   useEffect(() => {
     api.callApi('storageForms', {
@@ -29,22 +29,22 @@ export const StorageForm = forwardRef(({
         type,
       },
     }).then(formFields => setFormFields(formFields ?? []));
-  }, [type]);
+  }, [ type ]);
 
-  const storageTypeSelect = {columnCount: 1, fields: [{
+  const storageTypeSelect = { columnCount: 1, fields: [ {
     skip: true,
     type: "select",
     name: "storage_type",
     label: "Storage Type",
     disabled: !!storage,
-    options: storageTypes.map(({name, title}) => ({
+    options: storageTypes.map(({ name, title }) => ({
       value: name, label: title,
     })),
     value: storage?.type ?? type,
     onChange: (e) => {
       setType(e.target.value);
     },
-  }]};
+  } ] };
 
   const validateStorageConnection = useCallback(async () => {
     setChecking(true);
@@ -53,7 +53,7 @@ export const StorageForm = forwardRef(({
     const form = formRef.current;
 
     if (form && form.validateFields()) {
-      const body = form.assembleFormData({asJSON: true});
+      const body = form.assembleFormData({ asJSON: true });
       const type = form.getField('storage_type').value;
 
       // we're using api provided by the form to be able to save
@@ -70,19 +70,19 @@ export const StorageForm = forwardRef(({
       else setConnectionValid(false);
     }
     setChecking(false);
-  }, [formRef, target, type]);
+  }, [ formRef, target, type ]);
 
   const action = useMemo(() => {
     return storage ? "updateStorage" : "createStorage";
-  }, [storage]);
+  }, [ storage ]);
 
   return (
     <Form.Builder
       ref={formRef}
       action={action}
       params={{ target, type, project, pk: storage?.id }}
-      fields={[storageTypeSelect, ...(formFields ?? [])]}
-      formData={{...(storage ?? {})}}
+      fields={[ storageTypeSelect, ...(formFields ?? []) ]}
+      formData={{ ...(storage ?? {}) }}
       skipEmpty={true}
       onSubmit={onSubmit}
       autoFill="off"
@@ -92,8 +92,8 @@ export const StorageForm = forwardRef(({
       <Form.Actions valid={connectionValid} extra={(connectionValid !== null) && (
         <Block name="form-indicator">
           <Oneof value={connectionValid}>
-            <Elem tag="span" mod={{type: "success"}} name="item" case={true}>Successfully connected!</Elem>
-            <Elem tag="span" mod={{type: "fail"}} name="item" case={false}>Connection failed</Elem>
+            <Elem tag="span" mod={{ type: "success" }} name="item" case={true}>Successfully connected!</Elem>
+            <Elem tag="span" mod={{ type: "fail" }} name="item" case={false}>Connection failed</Elem>
           </Oneof>
         </Block>
       )}>

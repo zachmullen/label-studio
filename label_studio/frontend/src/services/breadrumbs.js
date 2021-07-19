@@ -23,11 +23,11 @@ export let deleteAction = noop;
 let localCrumbs = [];
 
 export const useBreadcrumbControls = singletonHook(initialBreadcrumbs, () => {
-  const [breadcrumbs, setBreadcrumbsState] = useState(initialBreadcrumbs);
+  const [ breadcrumbs, setBreadcrumbsState ] = useState(initialBreadcrumbs);
 
   localCrumbs = breadcrumbs;
   setBreadcrumbs = (newCrumbs) => {
-    const crumbs = [...(newCrumbs ?? [])];
+    const crumbs = [ ...(newCrumbs ?? []) ];
 
     setBreadcrumbsState(crumbs);
     localCrumbs = crumbs;
@@ -35,30 +35,30 @@ export const useBreadcrumbControls = singletonHook(initialBreadcrumbs, () => {
 
   addCrumb = useCallback((crumb) => {
     if (!isDefined(crumb?.key)) throw Error("Crumb must have a key");
-    const crumbs = [...localCrumbs, crumb];
+    const crumbs = [ ...localCrumbs, crumb ];
 
     setBreadcrumbs(crumbs);
     localCrumbs = crumbs;
-  }, [breadcrumbs]);
+  }, [ breadcrumbs ]);
 
   deleteCrumb = useCallback((key) => {
     const crumbs = localCrumbs.filter(c => c.key !== key);
 
     setBreadcrumbs(crumbs);
     localCrumbs = crumbs;
-  }, [breadcrumbs]);
+  }, [ breadcrumbs ]);
 
   addAction = useCallback((key, onClick) => {
     const crumbs = localCrumbs.map(crumb => {
       if (crumb.key === key) {
-        return {...crumb, onClick: onClick};
+        return { ...crumb, onClick };
       }
       return crumb;
     });
 
     setBreadcrumbs(crumbs);
     localCrumbs = crumbs;
-  }, [breadcrumbs]);
+  }, [ breadcrumbs ]);
 
   deleteAction = useCallback((key) => {
     const crumbs = localCrumbs.map(crumb => {
@@ -69,7 +69,7 @@ export const useBreadcrumbControls = singletonHook(initialBreadcrumbs, () => {
 
     setBreadcrumbs(crumbs);
     localCrumbs = crumbs;
-  }, [breadcrumbs]);
+  }, [ breadcrumbs ]);
 
   return breadcrumbs;
 });

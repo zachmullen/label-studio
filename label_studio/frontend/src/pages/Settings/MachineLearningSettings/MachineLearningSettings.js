@@ -13,10 +13,10 @@ import './MachineLearningSettings.styl';
 
 export const MachineLearningSettings = () => {
   const api = useAPI();
-  const {project, fetchProject, updateProject} = useContext(ProjectContext);
-  const [mlError, setMLError] = useState();
-  const [backends, setBackends] = useState([]);
-  const [versions, setVersions] = useState([]);
+  const { project, fetchProject, updateProject } = useContext(ProjectContext);
+  const [ mlError, setMLError ] = useState();
+  const [ backends, setBackends ] = useState([]);
+  const [ versions, setVersions ] = useState([]);
 
   const resetMLVersion = useCallback(async (e) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ export const MachineLearningSettings = () => {
     await updateProject({
       model_version: null,
     });
-  }, [api, project]);
+  }, [ api, project ]);
 
   const fetchBackends = useCallback(async () => {
     const models = await api.callApi('mlBackends', {
@@ -36,7 +36,7 @@ export const MachineLearningSettings = () => {
 
 
     if (models) setBackends(models);
-  }, [api, project, setBackends]);
+  }, [ api, project, setBackends ]);
 
   const fetchMLVersions = useCallback(async () => {
     const versions = await api.callApi("modelVersions", {
@@ -46,7 +46,7 @@ export const MachineLearningSettings = () => {
     });
 
     setVersions(versions);
-  }, [api, project.id]);
+  }, [ api, project.id ]);
 
   const showMLFormModal = useCallback((backend) => {
     const action = backend ? "updateMLBackend" : "addMLBackend";
@@ -74,7 +74,7 @@ export const MachineLearningSettings = () => {
           </Form.Row>
 
           <Form.Row columnCount={1}>
-            <TextArea name="description" label="Description" style={{minHeight: 120}}/>
+            <TextArea name="description" label="Description" style={{ minHeight: 120 }}/>
           </Form.Row>
 
           <Form.Actions>
@@ -102,18 +102,18 @@ export const MachineLearningSettings = () => {
     };
 
     const modalRef = modal(modalProps);
-  }, [project, fetchBackends, mlError]);
+  }, [ project, fetchBackends, mlError ]);
 
   useEffect(() => {
     if (project.id) {
       fetchBackends();
       fetchMLVersions();
     }
-  }, [project]);
+  }, [ project ]);
 
   return (
     <>
-      <Description style={{marginTop: 0, maxWidth: 680}}>
+      <Description style={{ marginTop: 0, maxWidth: 680 }}>
         Add one or more machine learning models to predict labels for your data.
         To import predictions without connecting a model,
         {" "}
@@ -128,29 +128,29 @@ export const MachineLearningSettings = () => {
       <Divider height={32}/>
 
       <Form action="updateProject"
-        formData={{...project}}
-        params={{pk: project.id}}
+        formData={{ ...project }}
+        params={{ pk: project.id }}
         onSubmit={() => fetchProject()}
         autosubmit
       >
         <Form.Row columnCount={1}>
           <Label text="ML-Assisted Labeling" large/>
 
-          <div style={{paddingLeft: 16}}>
+          <div style={{ paddingLeft: 16 }}>
             <Toggle
               label="Start model training after any annotations are submitted or updated"
               name="start_training_on_annotation_update"
             />
           </div>
 
-          <div style={{paddingLeft: 16}}>
+          <div style={{ paddingLeft: 16 }}>
             <Toggle
               label="Retrieve predictions when loading a task automatically"
               name="evaluate_predictions_automatically"
             />
           </div>
 
-          <div style={{paddingLeft: 16}}>
+          <div style={{ paddingLeft: 16 }}>
             <Toggle
               label="Show predictions to annotators in the Label Stream and Quick View"
               name="show_collab_predictions"
@@ -163,12 +163,12 @@ export const MachineLearningSettings = () => {
             <Label
               text="Model Version"
               description="Model version allows you to specify which prediction will be shown to the annotators."
-              style={{marginTop: 16}}
+              style={{ marginTop: 16 }}
               large
             />
 
-            <div style={{display: 'flex', alignItems: 'center', width: 400, paddingLeft: 16}}>
-              <div style={{flex: 1, paddingRight: 16}}>
+            <div style={{ display: 'flex', alignItems: 'center', width: 400, paddingLeft: 16 }}>
+              <div style={{ flex: 1, paddingRight: 16 }}>
                 <Select
                   name="model_version"
                   defaultValue={null}

@@ -16,7 +16,7 @@ export const Checkbox = ({
 
   React.useEffect(() => {
     checkboxRef.current.indeterminate = indeterminate;
-  }, [checkboxRef, indeterminate]);
+  }, [ checkboxRef, indeterminate ]);
 
   const checkboxContent = (
     <span className={rootClass.elem("box")}>

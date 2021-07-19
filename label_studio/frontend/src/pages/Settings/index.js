@@ -7,7 +7,7 @@ import { LabelingSettings } from './LabelingSettings';
 import { MachineLearningSettings } from './MachineLearningSettings/MachineLearningSettings';
 import { StorageSettings } from './StorageSettings/StorageSettings';
 
-export const MenuLayout = ({children, ...routeProps}) => {
+export const MenuLayout = ({ children, ...routeProps }) => {
   return (
     <SidebarMenu
       menuItems={[

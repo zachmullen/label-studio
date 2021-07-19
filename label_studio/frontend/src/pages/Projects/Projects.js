@@ -15,11 +15,11 @@ import { EmptyProjectsList, ProjectsList } from './ProjectsList';
 
 export const ProjectsPage = () => {
   const api = React.useContext(ApiContext);
-  const [projectsList, setProjectsList] = React.useState([]);
-  const [networkState, setNetworkState] = React.useState(null);
+  const [ projectsList, setProjectsList ] = React.useState([]);
+  const [ networkState, setNetworkState ] = React.useState(null);
   const setContextProps = useContextProps();
 
-  const [modal, setModal] = React.useState(false);
+  const [ modal, setModal ] = React.useState(false);
   const openModal = setModal.bind(null, true);
   const closeModal = setModal.bind(null, false);
 
@@ -39,7 +39,7 @@ export const ProjectsPage = () => {
     // there is a nice page with Create button when list is empty
     // so don't show the context button in that case
     setContextProps({ openModal, showButton: projectsList.length > 0 });
-  }, [projectsList.length]);
+  }, [ projectsList.length ]);
 
   return (
     <Block name="projects-page">
@@ -62,7 +62,7 @@ export const ProjectsPage = () => {
 ProjectsPage.title = "Projects";
 ProjectsPage.path = "/projects";
 ProjectsPage.exact = true;
-ProjectsPage.routes = ({store}) => [
+ProjectsPage.routes = ({ store }) => [
   {
     title: () => store.project?.title,
     path: "/:id(\\d+)",

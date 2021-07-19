@@ -8,7 +8,7 @@ import { Button, Dropdown, Menu, Userpic } from '../../components';
 import { Block, Elem } from '../../utils/bem';
 import { absoluteURL } from '../../utils/helpers';
 
-export const ProjectsList = ({projects}) => {
+export const ProjectsList = ({ projects }) => {
   const history = useHistory();
   return (
     <Elem name="list">
@@ -30,21 +30,21 @@ export const EmptyProjectsList = ({ openModal }) => {
   );
 };
 
-const ProjectCard = ({project, history}) => {
+const ProjectCard = ({ project, history }) => {
   const color = useMemo(() => {
     return project.color === '#FFFFFF' ? null : project.color;
-  }, [project]);
+  }, [ project ]);
 
   const projectColors = useMemo(() => {
     return color ? {
       '--header-color': color,
       '--background-color': chr(color).alpha(0.2).css(),
     } : {};
-  }, [color]);
+  }, [ color ]);
 
   return (
     <Elem tag={NavLink} name="link" to={`/projects/${project.id}/data`} data-external>
-      <Block name="project-card" mod={{colored: !!color}} style={projectColors}>
+      <Block name="project-card" mod={{ colored: !!color }} style={projectColors}>
         <Elem name="header">
           <Elem name="title">
             <Elem name="title-text">
@@ -71,15 +71,15 @@ const ProjectCard = ({project, history}) => {
                 {project.num_tasks_with_annotations} / {project.task_number}
               </Elem>
               <Elem name="detail">
-                <Elem name="detail-item" mod={{type: "completed"}}>
+                <Elem name="detail-item" mod={{ type: "completed" }}>
                   <Elem tag={LsCheck} name="icon"/>
                   {project.total_annotations_number}
                 </Elem>
-                <Elem name="detail-item" mod={{type: "rejected"}}>
+                <Elem name="detail-item" mod={{ type: "rejected" }}>
                   <Elem tag={LsMinus} name="icon"/>
                   {project.skipped_annotations_number}
                 </Elem>
-                <Elem name="detail-item" mod={{type: "predictions"}}>
+                <Elem name="detail-item" mod={{ type: "predictions" }}>
                   <Elem tag={LsBulb} name="icon"/>
                   {project.total_predictions_number}
                 </Elem>

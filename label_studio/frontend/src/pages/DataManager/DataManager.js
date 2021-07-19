@@ -46,14 +46,14 @@ const buildLink = (path, params) => {
   return generatePath(`/projects/:id${path}`, params);
 };
 
-export const DataManagerPage = ({...props}) => {
+export const DataManagerPage = ({ ...props }) => {
   const root = useRef();
   const params = useParams();
   const history = useHistory();
   const LabelStudio = useLibrary('lsf');
   const DataManager = useLibrary('dm');
   const setContextProps = useContextProps();
-  const [crashed, setCrashed] = useState(false);
+  const [ crashed, setCrashed ] = useState(false);
   const dataManagerRef = useRef();
 
   const init = useCallback(async () => {
@@ -68,37 +68,37 @@ export const DataManagerPage = ({...props}) => {
       params,
     );
 
-    const {current: dataManager} = dataManagerRef;
+    const { current: dataManager } = dataManagerRef;
 
     dataManager.on("crash", () => setCrashed());
 
     dataManager.on("settingsClicked", () => {
-      history.push(buildLink("/settings/labeling", {id: params.id}));
+      history.push(buildLink("/settings/labeling", { id: params.id }));
     });
 
     dataManager.on("importClicked", () => {
-      history.push(buildLink("/data/import", {id: params.id}));
+      history.push(buildLink("/data/import", { id: params.id }));
     });
 
     dataManager.on("exportClicked", () => {
-      history.push(buildLink("/data/export", {id: params.id}));
+      history.push(buildLink("/data/export", { id: params.id }));
     });
 
-    setContextProps({dmRef: dataManager});
-  }, [LabelStudio, DataManager]);
+    setContextProps({ dmRef: dataManager });
+  }, [ LabelStudio, DataManager ]);
 
   const destroyDM = useCallback(() => {
     if (dataManagerRef.current) {
       dataManagerRef.current.destroy();
       dataManagerRef.current = null;
     }
-  }, [dataManagerRef]);
+  }, [ dataManagerRef ]);
 
   useEffect(() => {
     init();
 
     return () => destroyDM();
-  }, [root, init]);
+  }, [ root, init ]);
 
   return crashed ? (
     <Block name="crash">
@@ -120,30 +120,30 @@ DataManagerPage.pages = {
 };
 DataManagerPage.context = () => {
   const params = useParams();
-  const {project} = useProject();
+  const { project } = useProject();
 
   const showLabelingInstruction = useCallback((mode) => {
     const isLabelStream = mode === 'labeling';
-    const {expert_instruction, show_instruction} = project;
+    const { expert_instruction, show_instruction } = project;
 
     if (isLabelStream && show_instruction && expert_instruction) {
       modal({
         title: "Labeling Instructions",
-        body: <div dangerouslySetInnerHTML={{__html: expert_instruction}}/>,
+        body: <div dangerouslySetInnerHTML={{ __html: expert_instruction }}/>,
         style: { width: 680 },
       });
     }
-  }, [project]);
+  }, [ project ]);
 
   const onDMModeChanged = useCallback((mode) => {
     showLabelingInstruction(mode);
-  }, [showLabelingInstruction]);
+  }, [ showLabelingInstruction ]);
 
   useEffect(() => {
     if (isDefined(params.mode)) {
       onDMModeChanged(params.mode);
     }
-  }, [params.mode, onDMModeChanged]);
+  }, [ params.mode, onDMModeChanged ]);
 
   return <ProjectMenu/>;
 };

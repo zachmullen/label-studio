@@ -5,8 +5,8 @@ ConfigContext.displayName = "ConfigContext";
 
 export const ConfigConsumer = ConfigContext.Consumer;
 
-export const ConfigProvider = ({children}) => {
-  const [config, setConfig] = useState(window.APP_SETTINGS ?? {});
+export const ConfigProvider = ({ children }) => {
+  const [ config, setConfig ] = useState(window.APP_SETTINGS ?? {});
 
   const update = (newConfig) => {
     if (!newConfig) return;
@@ -19,7 +19,7 @@ export const ConfigProvider = ({children}) => {
       ...config,
       update,
     };
-  }, [config]);
+  }, [ config ]);
 
   return (
     <ConfigContext.Provider value={contextValue}>

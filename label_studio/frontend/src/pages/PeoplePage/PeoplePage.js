@@ -14,16 +14,16 @@ import { PeopleList } from "./PeopleList";
 import "./PeoplePage.styl";
 import { SelectedUser } from "./SelectedUser";
 
-const InvitationModal = ({link}) => {
+const InvitationModal = ({ link }) => {
   return (
     <Block name="invite">
       <Input
         value={link}
-        style={{width: '100%'}}
+        style={{ width: '100%' }}
         readOnly
       />
 
-      <Description style={{width: '70%', marginTop: 16}}>
+      <Description style={{ width: '70%', marginTop: 16 }}>
         Invite people to join your Label Studio instance. People that you invite have full access to all of your projects. <a href="https://labelstud.io/guide/signup.html">Learn more</a>.
       </Description>
     </Block>
@@ -34,26 +34,26 @@ export const PeoplePage = () => {
   const api = useAPI();
   const inviteModal = useRef();
   const config = useConfig();
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [ selectedUser, setSelectedUser ] = useState(null);
 
-  const [link, setLink] = useState();
+  const [ link, setLink ] = useState();
 
   const selectUser = useCallback((user) => {
     setSelectedUser(user);
 
     localStorage.setItem('selectedUser', user?.id);
-  }, [setSelectedUser]);
+  }, [ setSelectedUser ]);
 
   const setInviteLink = useCallback((link) => {
     const hostname = config.hostname || location.origin;
     setLink(`${hostname}${link}`);
-  }, [config, setLink]);
+  }, [ config, setLink ]);
 
   const updateLink = useCallback(() => {
-    api.callApi('resetInviteLink').then(({invite_url}) => {
+    api.callApi('resetInviteLink').then(({ invite_url }) => {
       setInviteLink(invite_url);
     });
-  }, [setInviteLink]);
+  }, [ setInviteLink ]);
 
   const inviteModalProps = useCallback((link) => ({
     title: "Invite people",
@@ -62,7 +62,7 @@ export const PeoplePage = () => {
       <InvitationModal link={link}/>
     ),
     footer: () => {
-      const [copied, setCopied] = useState(false);
+      const [ copied, setCopied ] = useState(false);
 
       const copyLink = useCallback(() => {
         setCopied(true);
@@ -73,12 +73,12 @@ export const PeoplePage = () => {
       return (
         <Space spread>
           <Space>
-            <Button style={{width: 170}} onClick={() => updateLink()}>
+            <Button style={{ width: 170 }} onClick={() => updateLink()}>
               Reset Link
             </Button>
           </Space>
           <Space>
-            <Button primary style={{width: 170}} onClick={copyLink}>
+            <Button primary style={{ width: 170 }} onClick={copyLink}>
               {copied ? "Copied!" : "Copy link"}
             </Button>
           </Space>
@@ -90,21 +90,21 @@ export const PeoplePage = () => {
 
   const showInvitationModal = useCallback(() => {
     inviteModal.current = modal(inviteModalProps(link));
-  }, [inviteModalProps, link]);
+  }, [ inviteModalProps, link ]);
 
   const defaultSelected = useMemo(() => {
     return localStorage.getItem('selectedUser');
   }, []);
 
   useEffect(() => {
-    api.callApi("inviteLink").then(({invite_url}) => {
+    api.callApi("inviteLink").then(({ invite_url }) => {
       setInviteLink(invite_url);
     });
   }, []);
 
   useEffect(() => {
     inviteModal.current?.update(inviteModalProps(link));
-  }, [link]);
+  }, [ link ]);
 
   return (
     <Block name="people">

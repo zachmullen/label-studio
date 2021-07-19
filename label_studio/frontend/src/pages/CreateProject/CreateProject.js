@@ -34,19 +34,19 @@ const ProjectName = ({ name, setName, onSaveName, onSubmit, error, description, 
 );
 
 export const CreateProject = ({ onClose }) => {
-  const [step, setStep] = React.useState("name"); // name | import | config
-  const [waiting, setWaitingStatus] = React.useState(false);
+  const [ step, setStep ] = React.useState("name"); // name | import | config
+  const [ waiting, setWaitingStatus ] = React.useState(false);
 
   const project = useDraftProject();
   const history = useHistory();
   const api = useAPI();
 
-  const [name, setName] = React.useState("");
-  const [error, setError] = React.useState();
-  const [description, setDescription] = React.useState("");
-  const [config, setConfig] = React.useState("<View></View>");
+  const [ name, setName ] = React.useState("");
+  const [ error, setError ] = React.useState();
+  const [ description, setDescription ] = React.useState("");
+  const [ config, setConfig ] = React.useState("<View></View>");
 
-  React.useEffect(() => { setError(null); }, [name]);
+  React.useEffect(() => { setError(null); }, [ name ]);
 
   const { columns, uploading, uploadDisabled, finishUpload, pageProps } = useImportPage(project);
 
@@ -60,13 +60,13 @@ export const CreateProject = ({ onClose }) => {
 
   // name intentionally skipped from deps:
   // this should trigger only once when we got project loaded
-  React.useEffect(() => project && !name && setName(project.title), [project]);
+  React.useEffect(() => project && !name && setName(project.title), [ project ]);
 
   const projectBody = React.useMemo(() => ({
     title: name,
     description,
     label_config: config,
-  }), [name, description, config]);
+  }), [ name, description, config ]);
 
   const onCreate = React.useCallback(async () => {
     const imported = await finishUpload();
@@ -84,7 +84,7 @@ export const CreateProject = ({ onClose }) => {
     if (response !== null) {
       history.push(`/projects/${response.id}/data`);
     }
-  }, [project, projectBody, finishUpload]);
+  }, [ project, projectBody, finishUpload ]);
 
   const onSaveName = async () => {
     if (error) return;
@@ -111,7 +111,7 @@ export const CreateProject = ({ onClose }) => {
     setWaitingStatus(false);
     history.replace("/projects");
     onClose?.();
-  }, [project]);
+  }, [ project ]);
 
   return (
     <Modal onHide={() => history.push("/projects")} fullscreen visible bare closeOnClickOutside={false}>

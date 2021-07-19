@@ -16,15 +16,15 @@ const allowedKeys = [
 
 const CounterContext = React.createContext(null);
 
-const Counter = ({label, className, validate, required, skip, labelProps, ...props}) => {
+const Counter = ({ label, className, validate, required, skip, labelProps, ...props }) => {
 
-  const [min, max] = [props.min ?? -Infinity, props.max ?? Infinity];
+  const [ min, max ] = [ props.min ?? -Infinity, props.max ?? Infinity ];
 
   const normalizeValue = (value) => Math.max(min, Math.min(max, value));
 
-  const [currentValue, setCurrentValue] = React.useState(normalizeValue(props.value ?? 0));
-  const [focused, setFocused] = React.useState(props.autofocus ?? false);
-  const [disabled, setDisabled] = React.useState(props.disabled ?? null);
+  const [ currentValue, setCurrentValue ] = React.useState(normalizeValue(props.value ?? 0));
+  const [ focused, setFocused ] = React.useState(props.autofocus ?? false);
+  const [ disabled, setDisabled ] = React.useState(props.disabled ?? null);
 
   const setNewValue = (value) => {
     setCurrentValue(normalizeValue(Number(value)));
@@ -32,11 +32,11 @@ const Counter = ({label, className, validate, required, skip, labelProps, ...pro
 
   const increase = React.useCallback(() => {
     setNewValue((currentValue ?? 0) + (props.step ?? 1));
-  }, [currentValue, props.step]);
+  }, [ currentValue, props.step ]);
 
   const decrease = React.useCallback(() => {
     setNewValue((currentValue ?? 0) - (props.step ?? 1));
-  }, [currentValue, props.step]);
+  }, [ currentValue, props.step ]);
 
   /**@type {(e: import('react').SyntheticEvent<HTMLInputElement, KeyboardEvent>)} */
   const onInputHandler = (e) => {
@@ -114,12 +114,12 @@ const Counter = ({label, className, validate, required, skip, labelProps, ...pro
           max,
           disabled: fieldDisabled,
           ref,
-          onClickHandler
+          onClickHandler,
         };
 
         return (
           <CounterContext.Provider value={contextValue}>
-            <Block name="counter" mod={{focused, disabled: fieldDisabled}} mix={className}>
+            <Block name="counter" mod={{ focused, disabled: fieldDisabled }} mix={className}>
               <CounterButton type="decrease"/>
 
               <Elem
@@ -155,8 +155,8 @@ const Counter = ({label, className, validate, required, skip, labelProps, ...pro
 
 
 
-const CounterButton = ({type}) => {
-  const {currentValue, min, max, disabled, ref, onClickHandler} = React.useContext(CounterContext);
+const CounterButton = ({ type }) => {
+  const { currentValue, min, max, disabled, ref, onClickHandler } = React.useContext(CounterContext);
 
   const compareLimit = type === 'increase' ? max : min;
 
@@ -167,7 +167,7 @@ const CounterButton = ({type}) => {
       name="btn"
       mod={{
         type,
-        disabled: currentValue === compareLimit || disabled
+        disabled: currentValue === compareLimit || disabled,
       }}
       onClick={onClickHandler(type, ref)}
       onMouseDownCapture={e => e.preventDefault()}

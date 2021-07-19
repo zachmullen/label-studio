@@ -3,8 +3,8 @@ import chroma from "chroma-js";
 export const formDataToJPO = (formData: FormData) => {
   if (formData instanceof FormData) {
     const entries = formData.entries();
-    return Array.from(entries).reduce((res, [key, value]) => {
-      return {...res, [key]: value};
+    return Array.from(entries).reduce((res, [ key, value ]) => {
+      return { ...res, [key]: value };
     }, {});
   }
 
@@ -13,10 +13,10 @@ export const formDataToJPO = (formData: FormData) => {
 
 type Uniqueness<T> = (a: T, b: T) => boolean
 
-export const unique = <T>(list: T[], expression: Uniqueness<T>): T[] => {
+export const unique = <T>(list: T[] | undefined, expression: Uniqueness<T>): T[] => {
   const comparator = expression ?? ((a, b) => a === b);
 
-  return list.reduce<T[]>((res, item) => {
+  return (list ?? []).reduce<T[]>((res, item) => {
     const index = res.findIndex((elem) => comparator(elem, item));
     if (index < 0) res.push(item);
 
@@ -33,15 +33,15 @@ export const isEmptyString = (value: any) => {
 };
 
 export const objectClean = <T extends AnyObject>(source: T) => {
-  const cleanObject: [keyof T, unknown][] = Object.entries(source).reduce<[keyof T, unknown][]>((res, [key, value]) => {
+  const cleanObject: [keyof T, unknown][] = Object.entries(source).reduce<[keyof T, unknown][]>((res, [ key, value ]) => {
     const valueIsDefined = isDefined(value) && !isEmptyString(value);
 
     if (!valueIsDefined) { return res; }
 
     if (Object.prototype.toString.call(value) === '[object Object]') {
-      return [...res, [key, objectClean(value as AnyObject)]];
+      return [ ...res, [ key, objectClean(value as AnyObject) ] ];
     } else {
-      return [...res, [key, value]];
+      return [ ...res, [ key, value ] ];
     }
   }, []);
 
@@ -119,7 +119,7 @@ export const userDisplayName = (user: APIUserFull) => {
   const lastName = user.last_name;
 
   return (firstName || lastName)
-    ? [firstName, lastName].filter(n => !!n).join(" ").trim()
+    ? [ firstName, lastName ].filter(n => !!n).join(" ").trim()
     : (user.username)
       ? user.username
       : user.email;
@@ -139,13 +139,13 @@ export const chunks = <T extends any[]>(source: T, chunkSize: number) => {
 export const avg = (nums: number[]) => nums.reduce((a, b) => a + b, 0) / nums.length;
 
 export const stringToColor = (str: string) => {
-  const chars = [...btoa(str)].map<number>(c => c.charCodeAt(0));
+  const chars = [ ...btoa(str) ].map<number>(c => c.charCodeAt(0));
   const numPerChunk = Math.ceil(chars.length / 3);
   const channels = chunks(chars, numPerChunk);
 
   if (channels.length < 3) {
     const padding = new Array(3 - channels.length);
-    padding.fill([0]);
+    padding.fill([ 0 ]);
     channels.push(padding);
   }
 
@@ -167,4 +167,12 @@ export const reverseMap = <T>(source: T) => {
   const reversed = Object.entries(source).map(ent => ent.reverse());
 
   return Object.fromEntries(reversed);
+};
+
+export const arrayClean = <T extends []>(source: T) => {
+  return source.reduce((res, value) => {
+    if (value) res.push(value);
+
+    return res;
+  }, []);
 };

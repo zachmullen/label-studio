@@ -5,7 +5,7 @@ const libraryQueue = new Map;
 const libRequest = new Map;
 
 const requestLabelStudio = (libraries) => async (library) => {
-  const {scriptSrc, cssSrc, checkAvailability} = libraries[library];
+  const { scriptSrc, cssSrc, checkAvailability } = libraries[library];
   const availableLibrary = checkAvailability();
 
   const queueSet = libraryQueue.get(library) ?? new Set();
@@ -63,10 +63,10 @@ const requestLabelStudio = (libraries) => async (library) => {
 
 export const LibraryContext = createContext({});
 
-export const LibraryProvider = ({libraries, children}) => {
+export const LibraryProvider = ({ libraries, children }) => {
   const requestLibrary = useMemo(() => {
     return requestLabelStudio(libraries);
-  }, [libraries]);
+  }, [ libraries ]);
 
   return (
     <LibraryContext.Provider value={{ requestLibrary }}>
@@ -77,17 +77,17 @@ export const LibraryProvider = ({libraries, children}) => {
 
 export const useLibrary = (libraryName) => {
   const ctx = useContext(LibraryContext);
-  const [library, setLibrary] = useState();
+  const [ library, setLibrary ] = useState();
 
   const fetchLibrary = useCallback(async () => {
     const libLoaded = await ctx.requestLibrary(libraryName);
 
     setLibrary(!!libLoaded);
-  }, [ctx, libraryName]);
+  }, [ ctx, libraryName ]);
 
   useEffect(() => {
     fetchLibrary();
-  }, [fetchLibrary]);
+  }, [ fetchLibrary ]);
 
   return library;
 };

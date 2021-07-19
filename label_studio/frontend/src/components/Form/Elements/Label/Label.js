@@ -2,9 +2,9 @@ import { createElement, forwardRef } from 'react';
 import { cn } from '../../../../utils/bem';
 import './Label.styl';
 
-const Label = forwardRef(({text, children, required, placement, description, size, large, style, simple, flat}, ref) => {
+const Label = forwardRef(({ text, children, required, placement, description, size, large, style, simple, flat }, ref) => {
   const rootClass = cn('label');
-  const classList = [rootClass];
+  const classList = [ rootClass ];
   const tagName = simple ? 'div' : 'label';
   const mods = {
     size,
@@ -21,7 +21,7 @@ const Label = forwardRef(({text, children, required, placement, description, siz
     ref,
     'className': classList.join(" "),
     'data-required': required,
-    'style': style,
+    style,
   }, (
     <>
       <div className={rootClass.elem('text')}>

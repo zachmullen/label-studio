@@ -7,7 +7,7 @@ import { aroundTransition } from '../../utils/transition';
 import { Button } from '../Button/Button';
 import "./Modal.styl";
 
-const {Block, Elem} = BemWithSpecifiContext();
+const { Block, Elem } = BemWithSpecifiContext();
 
 const ModalContext = createContext();
 
@@ -32,11 +32,11 @@ export class Modal extends React.Component {
       setTimeout(() => this.show(), 30);
     }
 
-    document.addEventListener('keydown', this.closeOnEscape, {capture: true});
+    document.addEventListener('keydown', this.closeOnEscape, { capture: true });
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.closeOnEscape, {capture: true});
+    document.removeEventListener('keydown', this.closeOnEscape, { capture: true });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -105,7 +105,7 @@ export class Modal extends React.Component {
                   )}
                 </Modal.Header>
               )}
-              <Elem name="body" mod={{bare}}>
+              <Elem name="body" mod={{ bare }}>
                 {this.body}
               </Elem>
               {this.props.footer && (
@@ -124,7 +124,7 @@ export class Modal extends React.Component {
 
   onClickOutside = (e) => {
     if (!this.modalRef.current) return;
-    const {closeOnClickOutside} = this.props;
+    const { closeOnClickOutside } = this.props;
     const allowClose = this.props.allowClose !== false;
     const isInModal = this.modalRef.current.contains(e.target);
     const content = cn('modal').elem('content').closest(e.target);
@@ -197,13 +197,13 @@ export class Modal extends React.Component {
 }
 
 Modal.Header = ({ children, divided }) => (
-  <Elem name="header" mod={{divided}}>
+  <Elem name="header" mod={{ divided }}>
     {children}
   </Elem>
 );
 
 Modal.Footer = ({ children, bare }) => (
-  <Elem name="footer" mod={{bare}}>
+  <Elem name="footer" mod={{ bare }}>
     {children}
   </Elem>
 );

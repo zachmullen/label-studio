@@ -115,10 +115,10 @@ export default class Form extends React.Component {
     this.validateFields();
 
     if (!this.validation.size) {
-      this.setState({step: "submitting"});
+      this.setState({ step: "submitting" });
       this.submit();
     } else {
-      this.setState({step: "invalid"});
+      this.setState({ step: "invalid" });
     }
   }
 
@@ -167,7 +167,7 @@ export default class Form extends React.Component {
         const value = (() => {
           const inputValue = field.value;
 
-          if (['checkbox', 'radio'].includes(field.type)) {
+          if ([ 'checkbox', 'radio' ].includes(field.type)) {
             if (inputValue !== null &&  inputValue !== 'on') {
               return field.checked ? inputValue : null;
             }
@@ -178,22 +178,22 @@ export default class Form extends React.Component {
           return inputValue;
         })();
 
-        if (value !== null) res.push([name, value]);
+        if (value !== null) res.push([ name, value ]);
       }
 
       return res;
     }, []);
 
     if (asJSON) {
-      return requestBody.reduce((res, [key, value]) => ({...res, [key]: value}), {});
+      return requestBody.reduce((res, [ key, value ]) => ({ ...res, [key]: value }), {});
     } else {
       const formData = new FormData();
-      requestBody.forEach(([key, value]) => formData.append(key, value));
+      requestBody.forEach(([ key, value ]) => formData.append(key, value));
       return formData;
     }
   }
 
-  async submit({fieldsFilter} = {}) {
+  async submit({ fieldsFilter } = {}) {
     this.setState({ submitting: true, lastResponse: null });
 
     const rawAction = this.formElement.current.getAttribute("action");
@@ -213,7 +213,7 @@ export default class Form extends React.Component {
       state: success ? "success" : "fail",
     }, () => {
       setTimeout(() => {
-        this.setState({state: null});
+        this.setState({ state: null });
       }, 1500);
     });
   }
@@ -225,7 +225,7 @@ export default class Form extends React.Component {
       body,
     });
 
-    this.setState({lastResponse: response});
+    this.setState({ lastResponse: response });
 
     if (response === null) {
       this.props.onError?.();
@@ -243,10 +243,10 @@ export default class Form extends React.Component {
 
     try {
       const result = await response.json();
-      this.setState({lastResponse: result});
+      this.setState({ lastResponse: result });
 
       if (result.validation_errors) {
-        Object.entries(result.validation_errors).forEach(([key, messages]) => {
+        Object.entries(result.validation_errors).forEach(([ key, messages ]) => {
           const field = this.getField(key);
 
           this.validation.set(field.name, {
@@ -298,7 +298,7 @@ export default class Form extends React.Component {
 
   validateField(field) {
     const messages = [];
-    const {validation, field: element} = field;
+    const { validation, field: element } = field;
     const value = element.value?.trim() || null;
 
     validation.forEach((validator) => {
@@ -313,7 +313,7 @@ export default class Form extends React.Component {
     if (!this.props.formData) return;
     if (this.fields.size === 0) return;
 
-    Object.entries(this.props.formData).forEach(([key, value]) => {
+    Object.entries(this.props.formData).forEach(([ key, value ]) => {
       const field = this.getFieldContext(key);
 
       if (field && field.value !== value) {
@@ -323,11 +323,11 @@ export default class Form extends React.Component {
   }
 }
 
-const ValidationRenderer = ({validation}) => {
+const ValidationRenderer = ({ validation }) => {
   const rootClass = cn('form-validation');
 
   return <div className={rootClass}>
-    {Array.from(validation).map(([name, result]) => (
+    {Array.from(validation).map(([ name, result ]) => (
       <div key={name} className={rootClass.elem('group')} onClick={() => result.field.focus()}>
         <div className={rootClass.elem('field')}>{result.label}</div>
 
@@ -345,14 +345,14 @@ const ValidationRenderer = ({validation}) => {
 
 Form.Validator = Validators;
 
-Form.Row = ({columnCount, rowGap, children, style, spread = false}) => {
+Form.Row = ({ columnCount, rowGap, children, style, spread = false }) => {
   const styles = {};
 
   if (columnCount) styles['--column-count'] = columnCount;
   if (rowGap) styles['--row-gap'] = rowGap;
 
   return (
-    <div className={cn('form').elem('row').mod({spread})} style={{...(style ?? {}), ...styles}}>
+    <div className={cn('form').elem('row').mod({ spread })} style={{ ...(style ?? {}), ...styles }}>
       {children}
     </div>
   );
@@ -370,8 +370,8 @@ Form.Builder = React.forwardRef(({
   ...props
 }, ref) => {
   const formRef = ref ?? useRef();
-  const [fields, setFields] = useState(defaultFields ?? []);
-  const [formData, setFormData] = useState(defaultFormData ?? {});
+  const [ fields, setFields ] = useState(defaultFields ?? []);
+  const [ formData, setFormData ] = useState(defaultFormData ?? {});
 
   const renderFields = (fields) => {
     return fields.map((field, index) => {
@@ -409,7 +409,7 @@ Form.Builder = React.forwardRef(({
 
   const renderColumns = (columns) => {
     return columns.map((col, index) => (
-      <div className={cn('form').elem('column')} key={index} style={{width: col.width}}>
+      <div className={cn('form').elem('column')} key={index} style={{ width: col.width }}>
         {renderFields(col.fields)}
       </div>
     ));
@@ -423,7 +423,7 @@ Form.Builder = React.forwardRef(({
         setFields(newFields);
       }
     }
-  }, [fetchFields]);
+  }, [ fetchFields ]);
 
   const updateFormData = useCallback(async () => {
     if (fetchFormData) {
@@ -433,29 +433,29 @@ Form.Builder = React.forwardRef(({
         setFormData(newFormData);
       }
     }
-  }, [fetchFormData]);
+  }, [ fetchFormData ]);
 
   const handleOnSubmit = useCallback(async (...args) => {
     onSubmit?.(...args);
     await updateFields();
     await updateFormData();
-  }, [onSubmit, fetchFormData]);
+  }, [ onSubmit, fetchFormData ]);
 
   useEffect(() => {
     updateFields();
-  }, [updateFields]);
+  }, [ updateFields ]);
 
   useEffect(() => {
     updateFormData();
-  }, [updateFormData]);
+  }, [ updateFormData ]);
 
   useEffect(() => {
     setFields(defaultFields);
-  }, [defaultFields]);
+  }, [ defaultFields ]);
 
   return (
     <Form {...props} onSubmit={handleOnSubmit} ref={formRef}>
-      {(fields ?? []).map(({columnCount, fields, columns}, index) => (
+      {(fields ?? []).map(({ columnCount, fields, columns }, index) => (
         <Form.Row key={index} columnCount={columnCount} style={formRowStyle} spread>
           {columns ? renderColumns(columns) : renderFields(fields)}
         </Form.Row>
@@ -466,7 +466,7 @@ Form.Builder = React.forwardRef(({
           <Button
             type="submit"
             look="primary"
-            style={{width: 120}}
+            style={{ width: 120 }}
           >
             Save
           </Button>
@@ -476,11 +476,11 @@ Form.Builder = React.forwardRef(({
   );
 });
 
-Form.Actions = ({children, valid, extra, size}) => {
+Form.Actions = ({ children, valid, extra, size }) => {
   const rootClass = cn('form');
   return (
-    <div className={rootClass.elem('submit').mod({size})}>
-      <div className={rootClass.elem('info').mod({valid})}>
+    <div className={rootClass.elem('submit').mod({ size })}>
+      <div className={rootClass.elem('info').mod({ valid })}>
         {extra}
       </div>
 
@@ -496,13 +496,13 @@ Form.Indicator = () => {
   return (
     <Block name="form-indicator">
       <Oneof value={state}>
-        <Elem tag="span" mod={{type: state}} name="item" case="success">Saved!</Elem>
+        <Elem tag="span" mod={{ type: state }} name="item" case="success">Saved!</Elem>
       </Oneof>
     </Block>
   );
 };
 
-Form.ResponseParser = ({children}) => {
+Form.ResponseParser = ({ children }) => {
   const callback = children;
 
   if (callback instanceof Function === false) {

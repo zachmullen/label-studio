@@ -20,7 +20,7 @@ export const MachineLearningList = ({ backends, fetchBackends, onEdit }) => {
       },
     });
     await fetchBackends();
-  }, [fetchBackends, api]);
+  }, [ fetchBackends, api ]);
 
   const onStartTraining = useCallback(async (backend) => {
     await api.callApi('trainMLBackend', {
@@ -29,7 +29,7 @@ export const MachineLearningList = ({ backends, fetchBackends, onEdit }) => {
       },
     });
     await fetchBackends();
-  }, [fetchBackends, api]);
+  }, [ fetchBackends, api ]);
 
   return (
     <div className={rootClass}>
@@ -46,7 +46,7 @@ export const MachineLearningList = ({ backends, fetchBackends, onEdit }) => {
   );
 };
 
-const BackendCard = ({backend, onStartTrain, onEdit, onDelete}) => {
+const BackendCard = ({ backend, onStartTrain, onEdit, onDelete }) => {
   const confirmDelete = useCallback((backend) => {
     confirm({
       title: "Delete ML Backend",
@@ -54,10 +54,10 @@ const BackendCard = ({backend, onStartTrain, onEdit, onDelete}) => {
       buttonLook: "destructive",
       onOk(){ onDelete?.(backend); },
     });
-  }, [backend, onDelete]);
+  }, [ backend, onDelete ]);
 
   return (
-    <Card style={{marginTop: 0}} header={backend.title} extra={(
+    <Card style={{ marginTop: 0 }} header={backend.title} extra={(
       <div className={cn('ml').elem('info')}>
         <BackendState backend={backend}/>
 
@@ -72,7 +72,7 @@ const BackendCard = ({backend, onStartTrain, onEdit, onDelete}) => {
       </div>
     )}>
       <DescriptionList className={cn('ml').elem('summary')}>
-        <DescriptionList.Item term="URL" termStyle={{whiteSpace: 'nowrap'}}>
+        <DescriptionList.Item term="URL" termStyle={{ whiteSpace: 'nowrap' }}>
           {truncate(backend.url, 20, 10, '...')}
         </DescriptionList.Item>
         {backend.description && (
@@ -93,11 +93,11 @@ const BackendCard = ({backend, onStartTrain, onEdit, onDelete}) => {
   );
 };
 
-const BackendState = ({backend}) => {
+const BackendState = ({ backend }) => {
   const { state } = backend;
   return (
     <div className={cn('ml').elem('status')}>
-      <span className={cn('ml').elem('indicator').mod({state})}></span>
+      <span className={cn('ml').elem('indicator').mod({ state })}></span>
       <Oneof value={state} className={cn('ml').elem('status-label')}>
         <span case="DI">Disconnected</span>
         <span case="CO">Connected</span>

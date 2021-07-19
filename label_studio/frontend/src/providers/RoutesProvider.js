@@ -30,28 +30,28 @@ const findMacthingComponents = (path, routesMap, parentPath = "") => {
   return result;
 };
 
-export const RoutesProvider = ({children}) => {
+export const RoutesProvider = ({ children }) => {
   const history = useHistory();
   const location = useFixedLocation();
   const config = useConfig();
-  const {store} = useAppStore();
+  const { store } = useAppStore();
   const breadcrumbs = useBreadcrumbControls();
-  const [currentContext, setCurrentContext] = useState(null);
-  const [currentContextProps, setCurrentContextProps] = useState(null);
+  const [ currentContext, setCurrentContext ] = useState(null);
+  const [ currentContextProps, setCurrentContextProps ] = useState(null);
 
   const routesMap = useMemo(() => {
-    return pageSetToRoutes(Pages, {config, store});
-  }, [location, config, store, history]);
+    return pageSetToRoutes(Pages, { config, store });
+  }, [ location, config, store, history ]);
 
   const routesChain = useMemo(() => {
     return findMacthingComponents(location.pathname, routesMap);
-  }, [location, routesMap]);
+  }, [ location, routesMap ]);
 
   const lastRoute = useMemo(() => {
     return routesChain.filter(r => !r.modal).slice(-1)[0];
-  }, [routesChain]);
+  }, [ routesChain ]);
 
-  const [currentPath, setCurrentPath] = useState(lastRoute?.path);
+  const [ currentPath, setCurrentPath ] = useState(lastRoute?.path);
 
   const contextValue = useMemo(() => ({
     routesMap,
@@ -85,14 +85,14 @@ export const RoutesProvider = ({children}) => {
         const title = route.title instanceof Function ? route.title() : route.title;
         const key = route.component?.displayName ?? route.key ?? path;
 
-        return {path, title, key};
+        return { path, title, key };
       }).filter(c => !!c.title);
 
       setBreadcrumbs(crumbs);
     } catch (err) {
       console.log(err);
     }
-  }, [location, routesMap, currentContextProps, routesChain, lastRoute]);
+  }, [ location, routesMap, currentContextProps, routesChain, lastRoute ]);
 
   return (
     <RoutesContext.Provider value={contextValue}>
@@ -126,16 +126,16 @@ export const useParams = () => {
       .replace(/^\?/, '')
       .split("&")
       .map(pair => {
-        const [key, value] = pair.split('=').map(p => decodeURIComponent(p));
-        return [key, value];
+        const [ key, value ] = pair.split('=').map(p => decodeURIComponent(p));
+        return [ key, value ];
       });
 
     const search = Object.fromEntries(parsedLocation);
 
     const urlParams = matchPath(location.pathname, currentPath ?? "");
 
-    return {...search, ...(urlParams?.params ?? {})};
-  }, [location, currentPath]);
+    return { ...search, ...(urlParams?.params ?? {}) };
+  }, [ location, currentPath ]);
 
   return match ?? {};
 };
@@ -155,13 +155,13 @@ export const useFixedLocation = () => {
 
   const result = useMemo(() => {
     return location.location ?? location;
-  }, [location]);
+  }, [ location ]);
 
   return result;
 };
 
 export const useContextProps = () => {
   const setProps = useContext(RoutesContext).setContextProps;
-  return useMemo(() => setProps, [setProps]);
+  return useMemo(() => setProps, [ setProps ]);
 };
 

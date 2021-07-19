@@ -16,16 +16,16 @@ const extractModalRoutes = (children) => {
     });
   } catch (err) {
     console.log(err);
-    console.log({children});
+    console.log({ children });
   }
 
-  return [modalRoutes, regularRoutes];
+  return [ modalRoutes, regularRoutes ];
 };
 
 /**
  * Router wrapper that handles 404 pages
  */
-export const RouteWithStaticFallback = ({children, render, route, component, staticComponent, ...props}) => {
+export const RouteWithStaticFallback = ({ children, render, route, component, staticComponent, ...props }) => {
   const menubar = React.useContext(MenubarContext);
 
   const notFoundRenderer = (children) => {
@@ -33,10 +33,10 @@ export const RouteWithStaticFallback = ({children, render, route, component, sta
     let regularRoutes = [];
 
     if (children.props && children.props.children) {
-      [modalRoutes, regularRoutes] = extractModalRoutes(children.props.children);
+      [ modalRoutes, regularRoutes ] = extractModalRoutes(children.props.children);
       children = React.cloneElement(children, { children: regularRoutes });
     } else if (Array.isArray(children)) {
-      [modalRoutes, regularRoutes] = extractModalRoutes(children);
+      [ modalRoutes, regularRoutes ] = extractModalRoutes(children);
       children = regularRoutes;
     }
 

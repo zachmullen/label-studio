@@ -7,12 +7,12 @@ import { Dropdown } from '../Dropdown/Dropdown';
 import { Menu } from '../Menu/Menu';
 import './Breadcrumbs.styl';
 
-const {Block, Elem} = BemWithSpecifiContext();
+const { Block, Elem } = BemWithSpecifiContext();
 
 export const Breadcrumbs = () => {
   const config = useConfig();
   const reactBreadcrumbs = useBreadcrumbs();
-  const [breadcrumbs, setBreadcrumbs] = useState(reactBreadcrumbs);
+  const [ breadcrumbs, setBreadcrumbs ] = useState(reactBreadcrumbs);
 
   useEffect(() => {
     if (reactBreadcrumbs.length) {
@@ -20,7 +20,7 @@ export const Breadcrumbs = () => {
     } else if (config.breadcrumbs) {
       setBreadcrumbs(config.breadcrumbs);
     }
-  }, [reactBreadcrumbs, config]);
+  }, [ reactBreadcrumbs, config ]);
 
   return (
     <Block name="breadcrumbs">
@@ -33,7 +33,7 @@ export const Breadcrumbs = () => {
           const href = item.href ?? item.path;
 
           const title = (
-            <Elem tag="span" name="label" mod={{faded: index === item.length - 1}}>
+            <Elem tag="span" name="label" mod={{ faded: index === item.length - 1 }}>
               {item.title}
             </Elem>
           );
@@ -55,19 +55,19 @@ export const Breadcrumbs = () => {
           ) : null;
 
           return item.onClick ? (
-            <Elem key={key} tag="li" name="item" mod={{last: isLastItem}}>
+            <Elem key={key} tag="li" name="item" mod={{ last: isLastItem }}>
               <span title={item.title} onClick={item.onClick}>{title}</span>
             </Elem>
           ) : dropdownSubmenu ? (
-            <Elem key={key} tag="li" component={Dropdown.Trigger} name="item" mod={{last: isLastItem}} content={dropdownSubmenu}>
+            <Elem key={key} tag="li" component={Dropdown.Trigger} name="item" mod={{ last: isLastItem }} content={dropdownSubmenu}>
               <span title={item.title}>{title}</span>
             </Elem>
           ) : (href && !isLastItem) ? (
-            <Elem key={key} tag="li" name="item" mod={{last: isLastItem}}>
+            <Elem key={key} tag="li" name="item" mod={{ last: isLastItem }}>
               <a href={absoluteURL(href)} title={item.title}>{title}</a>
             </Elem>
           ) : (
-            <Elem key={key} tag="li" name="item" mod={{last: isLastItem}} title={item.title}>
+            <Elem key={key} tag="li" name="item" mod={{ last: isLastItem }} title={item.title}>
               {title}
             </Elem>
           );

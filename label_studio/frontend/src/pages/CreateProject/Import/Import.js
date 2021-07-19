@@ -20,7 +20,7 @@ function traverseFileTree(item, path) {
       // Avoid hidden files
       if (item.name[0] === ".") return resolve([]);
 
-      resolve([item]);
+      resolve([ item ]);
     } else if (item.isDirectory) {
       // Get folder contents
       const dirReader = item.createReader();
@@ -62,7 +62,7 @@ const Footer = () => {
 };
 
 const Upload = ({ children, sendFiles }) => {
-  const [hovered, setHovered] = useState(false);
+  const [ hovered, setHovered ] = useState(false);
   const onHover = (e) => {
     e.preventDefault();
     setHovered(true);
@@ -74,7 +74,7 @@ const Upload = ({ children, sendFiles }) => {
     e.preventDefault();
     onLeave();
     getFiles(e.dataTransfer.items).then(files => sendFiles(files));
-  }, [onLeave, sendFiles]);
+  }, [ onLeave, sendFiles ]);
 
   return (
     <div id="holder" className={dropzoneClass.mod({ hovered })} ref={dropzoneRef}
@@ -119,20 +119,20 @@ export const ImportPage = ({
   setCsvHandling,
   addColumns,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState();
-  const [ids, _setIds] = useState([]);
+  const [ loading, setLoading ] = useState(false);
+  const [ error, setError ] = useState();
+  const [ ids, _setIds ] = useState([]);
   const api = useAPI();
 
   const processFiles = (state, action) => {
     if (action.sending) {
-      return {...state, uploading: [...action.sending, ...state.uploading]};
+      return { ...state, uploading: [ ...action.sending, ...state.uploading ] };
     }
     if (action.sent) {
-      return {...state, uploading: state.uploading.filter(f => !action.sent.includes(f))};
+      return { ...state, uploading: state.uploading.filter(f => !action.sent.includes(f)) };
     }
     if (action.uploaded) {
-      return {...state, uploaded: unique([...state.uploaded, ...action.uploaded], (a, b) => a.id === b.id)};
+      return { ...state, uploaded: unique([ ...state.uploaded, ...action.uploaded ], (a, b) => a.id === b.id) };
     }
     // if (action.ids) {
     //   const ids = unique([...state.ids, ...action.ids]);
@@ -141,7 +141,7 @@ export const ImportPage = ({
     // }
     return state;
   };
-  const [files, dispatch] = useReducer(processFiles, {uploaded: [], uploading: []});
+  const [ files, dispatch ] = useReducer(processFiles, { uploaded: [], uploading: [] });
   const showList = Boolean(files.uploaded?.length || files.uploading?.length);
 
   const setIds = (ids) => {
@@ -160,10 +160,10 @@ export const ImportPage = ({
     });
     dispatch({ uploaded: files ?? [] });
     if (files?.length) {
-      setIds(unique([...ids, ...files.map(f => f.id)]));
+      setIds(unique([ ...ids, ...files.map(f => f.id) ]));
     }
     return files;
-  }, [project]);
+  }, [ project ]);
 
   const onStart = () => {
     setLoading(true);
@@ -183,14 +183,14 @@ export const ImportPage = ({
   };
   const onFinish = useCallback(res => {
     const { could_be_tasks_list, data_columns, file_upload_ids } = res;
-    const file_ids = [...ids, ...file_upload_ids];
+    const file_ids = [ ...ids, ...file_upload_ids ];
     setIds(file_ids);
     if (could_be_tasks_list && !csvHandling) setCsvHandling("choose");
     setLoading(true);
     onWaiting?.(false);
     addColumns(data_columns);
     return loadFilesList(file_ids).then(() => setLoading(false));
-  }, [addColumns, loadFilesList, setIds, ids, setLoading]);
+  }, [ addColumns, loadFilesList, setIds, ids, setLoading ]);
 
   const importFiles = useCallback(async (files, body) => {
     dispatch({ sending: files });
@@ -211,21 +211,21 @@ export const ImportPage = ({
     else onError?.(res?.response);
 
     dispatch({ sent: files });
-  }, [project, onFinish]);
+  }, [ project, onFinish ]);
 
   const sendFiles = useCallback(files => {
     onStart();
     onWaiting?.(true);
-    files = [...files]; // they can be array-like object
+    files = [ ...files ]; // they can be array-like object
     const fd = new FormData;
     for (let f of files) fd.append(f.name, f);
     return importFiles(files, fd);
-  }, [importFiles, onStart]);
+  }, [ importFiles, onStart ]);
 
   const onUpload = useCallback(e => {
     sendFiles(e.target.files);
     e.target.value = "";
-  }, [sendFiles]);
+  }, [ sendFiles ]);
 
   const onLoadURL = useCallback(e => {
     e.preventDefault();
@@ -238,8 +238,8 @@ export const ImportPage = ({
     urlRef.current.value = "";
     onWaiting?.(true);
     const body = new URLSearchParams({ url });
-    importFiles([{ name: url }], body);
-  }, [importFiles]);
+    importFiles([ { name: url } ], body);
+  }, [ importFiles ]);
 
   useEffect(() => {
     if (project?.id !== undefined) {
@@ -251,7 +251,7 @@ export const ImportPage = ({
         }
       });
     }
-  }, [project, loadFilesList]);
+  }, [ project, loadFilesList ]);
 
   const urlRef = useRef();
 

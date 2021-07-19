@@ -17,7 +17,7 @@ export const FormField = forwardRef(({
 }, ref) => {
   /**@type {Form} */
   const context = useContext(FormContext);
-  const [dependencyField, setDependencyField] = useState(null);
+  const [ dependencyField, setDependencyField ] = useState(null);
 
   const field = ref ?? useRef();
 
@@ -26,7 +26,7 @@ export const FormField = forwardRef(({
   ];
 
   validators?.forEach?.(validator => {
-    const [name, value] = validator.split(/:(.+)/).slice(0, 2);
+    const [ name, value ] = validator.split(/:(.+)/).slice(0, 2);
     const validatorFunc = Validators[name];
 
     if (isDefined(validatorFunc)) {
@@ -59,7 +59,7 @@ export const FormField = forwardRef(({
 
     setDependencyField(field);
     return () => dep.field.removeEventListener('change', handler);
-  }, [context, field, dependency]);
+  }, [ context, field, dependency ]);
 
   const setValueCallback = useCallback((value) => {
     if (!field || !field.current) return;
@@ -78,7 +78,7 @@ export const FormField = forwardRef(({
     const evt = document.createEvent("HTMLEvents");
     evt.initEvent("change", false, true);
     input.dispatchEvent(evt);
-  }, [field]);
+  }, [ field ]);
 
   useEffect(() => {
     context?.registerField({
@@ -90,7 +90,7 @@ export const FormField = forwardRef(({
       setValue: setValueCallback,
     });
     return () => context?.unregisterField(name);
-  }, [field, setValueCallback]);
+  }, [ field, setValueCallback ]);
 
   return children(field, dependencyField, context);
 });

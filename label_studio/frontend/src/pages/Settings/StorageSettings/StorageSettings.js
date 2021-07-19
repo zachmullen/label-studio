@@ -10,7 +10,7 @@ export const StorageSettings = () => {
 
   return (
     <Block name="storage-settings">
-      <Description style={{marginTop: 0}}>
+      <Description style={{ marginTop: 0 }}>
         Use cloud or database storage as the source for your labeling tasks or the target of your completed annotations.
       </Description>
 

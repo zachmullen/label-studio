@@ -6,17 +6,17 @@ import { Block, Elem } from "../../utils/bem";
 import { isDefined } from "../../utils/helpers";
 import './PeopleList.styl';
 
-export const PeopleList = ({onSelect, selectedUser, defaultSelected}) => {
+export const PeopleList = ({ onSelect, selectedUser, defaultSelected }) => {
   const api = useAPI();
-  const [usersList, setUsersList] = useState();
+  const [ usersList, setUsersList ] = useState();
 
   const fetchUsers = useCallback(async () => {
     const result = await api.callApi('memberships', {
-      params: {pk: 1},
+      params: { pk: 1 },
     });
 
     setUsersList(result);
-  }, [api]);
+  }, [ api ]);
 
   const selectUser = useCallback((user) => {
     if (selectedUser?.id === user.id) {
@@ -24,7 +24,7 @@ export const PeopleList = ({onSelect, selectedUser, defaultSelected}) => {
     } else {
       onSelect?.(user);
     }
-  }, [selectedUser]);
+  }, [ selectedUser ]);
 
   useEffect(() => {
     fetchUsers();
@@ -32,10 +32,10 @@ export const PeopleList = ({onSelect, selectedUser, defaultSelected}) => {
 
   useEffect(() => {
     if (isDefined(defaultSelected) && usersList) {
-      const selected = usersList.find(({user}) => user.id === Number(defaultSelected));
+      const selected = usersList.find(({ user }) => user.id === Number(defaultSelected));
       if (selected) selectUser(selected.user);
     }
-  }, [usersList, defaultSelected]);
+  }, [ usersList, defaultSelected ]);
 
   return (
     <Block name="people-list">
@@ -48,11 +48,11 @@ export const PeopleList = ({onSelect, selectedUser, defaultSelected}) => {
             <Elem name="column" mix="last-activity">Last Activity</Elem>
           </Elem>
           <Elem name="body">
-            {usersList.map(({user}) => {
+            {usersList.map(({ user }) => {
               const active = user.id === selectedUser?.id;
 
               return (
-                <Elem key={`user-${user.id}`} name="user" mod={{active}} onClick={() => selectUser(user)}>
+                <Elem key={`user-${user.id}`} name="user" mod={{ active }} onClick={() => selectUser(user)}>
                   <Elem name="field" mix="avatar">
                     <Userpic user={user} style={{ width: 28, height: 28 }}/>
                   </Elem>
@@ -63,7 +63,7 @@ export const PeopleList = ({onSelect, selectedUser, defaultSelected}) => {
                     {user.first_name} {user.last_name}
                   </Elem>
                   <Elem name="field" mix="last-activity">
-                    {formatDistance(new Date(user.last_activity), new Date(), {addSuffix: true})}
+                    {formatDistance(new Date(user.last_activity), new Date(), { addSuffix: true })}
                   </Elem>
                 </Elem>
               );

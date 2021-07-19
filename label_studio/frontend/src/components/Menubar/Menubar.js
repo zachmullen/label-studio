@@ -18,15 +18,15 @@ import './MenuSidebar.styl';
 
 export const MenubarContext = createContext();
 
-const LeftContextMenu = ({className}) => (
+const LeftContextMenu = ({ className }) => (
   <StaticContent
     id="context-menu-left"
     className={className}
   >{(template) => <Breadcrumbs fromTemplate={template} />}</StaticContent>
 );
 
-const RightContextMenu = ({className, ...props}) => {
-  const {ContextComponent, contextProps} = useContextComponent();
+const RightContextMenu = ({ className, ...props }) => {
+  const { ContextComponent, contextProps } = useContextComponent();
 
   return ContextComponent ? (
     <div className={className}>
@@ -53,9 +53,9 @@ export const Menubar = ({
   const location = useLocation();
 
   const config = useConfig();
-  const [sidebarOpened, setSidebarOpened] = useState(defaultOpened ?? false);
-  const [sidebarPinned, setSidebarPinned] = useState(defaultPinned ?? false);
-  const [PageContext, setPageContext] = useState({
+  const [ sidebarOpened, setSidebarOpened ] = useState(defaultOpened ?? false);
+  const [ sidebarPinned, setSidebarPinned ] = useState(defaultPinned ?? false);
+  const [ PageContext, setPageContext ] = useState({
     Component: null,
     props: {},
   });
@@ -72,13 +72,13 @@ export const Menubar = ({
     const newState = !sidebarPinned;
     setSidebarPinned(newState);
     onSidebarPin?.(newState);
-  }, [sidebarPinned]);
+  }, [ sidebarPinned ]);
 
   const sidebarToggle = useCallback((visible) => {
     const newState = visible;
     setSidebarOpened(newState);
     onSidebarToggle?.(newState);
-  }, [sidebarOpened]);
+  }, [ sidebarOpened ]);
 
   const providerValue = useMemo(() => ({
     PageContext,
@@ -104,14 +104,14 @@ export const Menubar = ({
     contextIsSet(ctx) {
       return PageContext.Component === ctx;
     },
-  }), [PageContext]);
+  }), [ PageContext ]);
 
   useEffect(() => {
     if (!sidebarPinned) {
       menuDropdownRef?.current?.close();
     }
     useMenuRef?.current?.close();
-  }, [location]);
+  }, [ location ]);
 
   return (
     <div className={contentClass}>
@@ -128,9 +128,9 @@ export const Menubar = ({
           </Dropdown.Trigger>
 
           <div className={menubarContext}>
-            <LeftContextMenu className={contextItem.mod({left: true})}/>
+            <LeftContextMenu className={contextItem.mod({ left: true })}/>
 
-            <RightContextMenu className={contextItem.mod({right: true})}/>
+            <RightContextMenu className={contextItem.mod({ right: true })}/>
           </div>
 
           <Dropdown.Trigger ref={useMenuRef} align="right" content={(
@@ -165,8 +165,8 @@ export const Menubar = ({
               onToggle={sidebarToggle}
               onVisibilityChanged={() => window.dispatchEvent(new Event('resize'))}
               visible={sidebarOpened}
-              className={[sidebarClass, sidebarClass.mod({floating: !sidebarPinned})].join(" ")}
-              style={{width: 240}}
+              className={[ sidebarClass, sidebarClass.mod({ floating: !sidebarPinned }) ].join(" ")}
+              style={{ width: 240 }}
             >
               <Menu>
                 <Menu.Item
@@ -231,7 +231,7 @@ export const Menubar = ({
           )}
 
           <MenubarContext.Provider value={providerValue}>
-            <div className={contentClass.elem('content').mod({withSidebar: sidebarPinned && sidebarOpened})}>
+            <div className={contentClass.elem('content').mod({ withSidebar: sidebarPinned && sidebarOpened })}>
               {children}
             </div>
           </MenubarContext.Provider>

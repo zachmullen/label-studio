@@ -4,7 +4,7 @@ export const accumulator = (timeout, callback) => {
 
   const initTimer = () => {
     timer = setTimeout(() => {
-      callback([...result]);
+      callback([ ...result ]);
       clearTimeout(timer);
       result.length = 0;
     }, timeout);

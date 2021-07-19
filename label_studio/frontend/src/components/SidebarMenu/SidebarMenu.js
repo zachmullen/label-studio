@@ -3,7 +3,7 @@ import { cn } from "../../utils/bem";
 import { Menu } from '../Menu/Menu';
 import './SidebarMenu.styl';
 
-export const SidebarMenu = ({children, menu, path, menuItems}) => {
+export const SidebarMenu = ({ children, menu, path, menuItems }) => {
   const rootClass = cn('sidebar-menu');
 
   return (menu || menuItems) ? (

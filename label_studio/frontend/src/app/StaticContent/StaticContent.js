@@ -44,16 +44,16 @@ const StaticContentDrawer = React.forwardRef(({
 }, ref) => {
   const rootRef = ref ?? React.useRef();
 
-  const [content, setContent] = React.useState(parseContent(id, source, children, parse));
+  const [ content, setContent ] = React.useState(parseContent(id, source, children, parse));
 
   React.useEffect(() => {
     setContent(parseContent(id, source, children, parse));
-  }, [source, children]);
+  }, [ source, children ]);
 
   React.useEffect(() => {
     if (rootRef.current) reInsertScripts(rootRef.current);
     onRenderFinished?.();
-  }, [content]);
+  }, [ content ]);
 
   if (content.setInnerHTML) {
     props.dangerouslySetInnerHTML = { __html: content.children };
@@ -65,7 +65,7 @@ const StaticContentDrawer = React.forwardRef(({
     ? <React.Fragment children={content.children}/>
     : React.createElement(tagName ?? 'div', {
       ...props,
-      ref: rootRef
+      ref: rootRef,
     });
 });
 

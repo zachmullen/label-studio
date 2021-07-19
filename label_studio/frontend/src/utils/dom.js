@@ -1,10 +1,36 @@
 /**
+ * @param {HTMLElement?} elem
+ */
+const getBoundingBox = (elem) => {
+  const template = {
+    bottom: 0,
+    height: 0,
+    left: 0,
+    right: 0,
+    top: 0,
+    width: 0,
+    x: 0,
+    y: 0,
+  };
+
+  const position = elem?.getBoundingClientRect?.() ?? {};
+
+  const result = Object.entries(template).reduce((res, [ key, value ]) => {
+    res[key] = position[key] ?? value;
+    return res;
+  }, {});
+
+  return result;
+};
+
+/**
  * @param {HTMLElement} source
  * @param {HTMLElement} target
  */
 const positioner = (source, target) => {
-  const sourcePosition = source.getBoundingClientRect();
-  const targetPosition = target.getBoundingClientRect();
+  const sourcePosition = getBoundingBox(source);
+  const targetPosition = getBoundingBox(target);
+
   return {
     source: sourcePosition,
     target: targetPosition,

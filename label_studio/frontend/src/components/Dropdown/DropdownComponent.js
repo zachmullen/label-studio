@@ -19,10 +19,10 @@ export const Dropdown = forwardRef(
     const isInline = triggerRef === undefined;
 
     const { children } = props;
-    const [renderable, setRenderable] = useState(visible);
-    const [currentVisible, setVisible] = useState(visible);
-    const [offset, setOffset] = useState({});
-    const [visibility, setVisibility] = useState(
+    const [ renderable, setRenderable ] = useState(visible);
+    const [ currentVisible, setVisible ] = useState(visible);
+    const [ offset, setOffset ] = useState({});
+    const [ visibility, setVisibility ] = useState(
       visible ? "visible" : null,
     );
 
@@ -32,7 +32,7 @@ export const Dropdown = forwardRef(
       const { left, top } = alignElements(parent, dropdownEl, `bottom-${props.align ?? 'left'}`);
 
       setOffset({ left, top });
-    }, [triggerRef]);
+    }, [ triggerRef ]);
 
     const dropdownIndex = useMemo(() => {
       return lastIndex++;
@@ -62,27 +62,27 @@ export const Dropdown = forwardRef(
           resolve();
         }
       });
-    }, [animated]);
+    }, [ animated ]);
 
     const changeVisibility = useCallback(async (visibility) => {
       props.onToggle?.(visibility);
       await performAnimation(visibility);
       setVisible(visibility);
       props.onVisibilityChanged?.(visibility);
-    }, [props, performAnimation]);
+    }, [ props, performAnimation ]);
 
     const close = useCallback(async () => {
       if (currentVisible === false || renderable === false) return;
 
       await changeVisibility(false);
       setRenderable(false);
-    }, [currentVisible, performAnimation, props, renderable]);
+    }, [ currentVisible, performAnimation, props, renderable ]);
 
     const open = useCallback(async () => {
       if (currentVisible === true || renderable === true) return;
 
       setRenderable(true);
-    }, [currentVisible, performAnimation, props, renderable]);
+    }, [ currentVisible, performAnimation, props, renderable ]);
 
     const toggle = useCallback(async () => {
       const newState = !currentVisible;
@@ -92,7 +92,7 @@ export const Dropdown = forwardRef(
       } else {
         close();
       }
-    }, [close, currentVisible, open]);
+    }, [ close, currentVisible, open ]);
 
     useEffect(() => {
       if (!ref) return;
@@ -104,25 +104,25 @@ export const Dropdown = forwardRef(
         open,
         close,
       };
-    }, [close, open, ref, toggle, dropdown, visibility]);
+    }, [ close, open, ref, toggle, dropdown, visibility ]);
 
     useEffect(() => {
       setVisible(visible);
-    }, [visible]);
+    }, [ visible ]);
 
     useEffect(() => {
       if (!isInline && visibility === "before-appear") {
         calculatePosition();
       }
-    }, [visibility, calculatePosition, isInline]);
+    }, [ visibility, calculatePosition, isInline ]);
 
     useEffect(() => {
       if (props.enabled === false) performAnimation(false);
-    }, [props.enabled]);
+    }, [ props.enabled ]);
 
     useEffect(() => {
       if (renderable) changeVisibility(true);
-    }, [renderable]);
+    }, [ renderable ]);
 
     const content =
       children.props && children.props.type === "Menu"
@@ -147,7 +147,7 @@ export const Dropdown = forwardRef(
         default:
           return visible ? "visible" : null;
       }
-    }, [visibility, visible]);
+    }, [ visibility, visible ]);
 
     const compositeStyles = {
       ...(props.style ?? {}),
@@ -159,7 +159,7 @@ export const Dropdown = forwardRef(
       <Block
         ref={dropdown}
         name="dropdown"
-        mix={[props.className, visibilityClasses]}
+        mix={[ props.className, visibilityClasses ]}
         style={compositeStyles}
         onClick={(e) => e.stopPropagation()}
       >

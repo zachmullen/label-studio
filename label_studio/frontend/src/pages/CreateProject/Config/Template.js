@@ -3,7 +3,7 @@ import { Palette } from "../../../utils/colors";
 
 export const EMPTY_CONFIG = "<View></View>";
 export const DEFAULT_COLUMN = "$undefined$";
-export const isEmptyConfig = config => ["", EMPTY_CONFIG].includes(config.replace(/\s+/g, ''));
+export const isEmptyConfig = config => [ "", EMPTY_CONFIG ].includes(config.replace(/\s+/g, ''));
 
 export class Template {
   objects = []
@@ -84,7 +84,7 @@ export class Template {
     }
     if (!labels.length) return;
 
-    const existing = [...control.children].map(ch => ch.getAttribute("value"));
+    const existing = [ ...control.children ].map(ch => ch.getAttribute("value"));
     const isChoices = control.tagName === "Choices";
 
     labels.forEach(label => {

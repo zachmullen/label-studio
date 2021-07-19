@@ -8,9 +8,9 @@ import { ConfigPage } from '../CreateProject/Config/Config';
 
 export const LabelingSettings = () => {
   const history = useHistory();
-  const {project, fetchProject} = useProject();
-  const [config, setConfig] = useState("");
-  const [essentialDataChanged, setEssentialDataChanged] = useState(false);
+  const { project, fetchProject } = useProject();
+  const [ config, setConfig ] = useState("");
+  const [ essentialDataChanged, setEssentialDataChanged ] = useState(false);
   const api = useAPI();
 
   const saveConfig = useCallback(async () => {
@@ -31,7 +31,7 @@ export const LabelingSettings = () => {
     const error = await res.json();
     fetchProject();
     return error;
-  }, [project, config]);
+  }, [ project, config ]);
 
   const projectAlreadySetUp = useMemo(() => {
     if (project.label_config) {
@@ -39,11 +39,11 @@ export const LabelingSettings = () => {
       const configIsEmpty = project.label_config.replace(/\s/g, '') === '<View></View>';
       const hasTasks = project.task_number > 0;
 
-      console.log({hasConfig, configIsEmpty, hasTasks, project});
+      console.log({ hasConfig, configIsEmpty, hasTasks, project });
       return (hasConfig && !configIsEmpty) && hasTasks;
     }
     return false;
-  }, [project]);
+  }, [ project ]);
 
   const onSave = useCallback(async () => {
     if (essentialDataChanged && projectAlreadySetUp) {
@@ -57,7 +57,7 @@ export const LabelingSettings = () => {
     } else {
       saveConfig();
     }
-  }, [essentialDataChanged, saveConfig]);
+  }, [ essentialDataChanged, saveConfig ]);
 
   const onUpdate = useCallback((config) => {
     setConfig(config);

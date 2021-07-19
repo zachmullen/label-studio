@@ -3,7 +3,7 @@ import React from 'react';
 import { DescriptionList } from '../../../components/DescriptionList/DescriptionList';
 import { Oneof } from '../../../components/Oneof/Oneof';
 
-export const StorageSummary = ({storage, className, enableLastSync = false, storageTypes = []}) => {
+export const StorageSummary = ({ storage, className, enableLastSync = false, storageTypes = [] }) => {
   return (
     <div className={className}>
       <DescriptionList>
@@ -35,7 +35,7 @@ const SummaryS3 = ({ storage }) => {
   );
 };
 
-const GSCStorage = ({storage}) => {
+const GSCStorage = ({ storage }) => {
   return (
     <DescriptionList.Item term="Bucket">
       {storage.bucket}
@@ -43,7 +43,7 @@ const GSCStorage = ({storage}) => {
   );
 };
 
-const AzureStorage = ({storage}) => {
+const AzureStorage = ({ storage }) => {
   return (
     <DescriptionList.Item term="Container">
       {storage.container}
@@ -51,7 +51,7 @@ const AzureStorage = ({storage}) => {
   );
 };
 
-const RedisStorage = ({storage}) => {
+const RedisStorage = ({ storage }) => {
   return (
     <>
       <DescriptionList.Item term="Path">
@@ -64,7 +64,7 @@ const RedisStorage = ({storage}) => {
   );
 };
 
-const LocalStorage = ({storage}) => {
+const LocalStorage = ({ storage }) => {
   return (
     <DescriptionList.Item term="Path">
       {storage.path}

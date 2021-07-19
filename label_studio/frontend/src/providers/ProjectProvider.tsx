@@ -18,12 +18,12 @@ ProjectContext.displayName = 'ProjectContext';
 
 const projectCache = new Map<number, APIProject>();
 
-export const ProjectProvider: React.FunctionComponent = ({children}) => {
+export const ProjectProvider: React.FunctionComponent = ({ children }) => {
   const api = useAPI();
   const params = useParams();
   const { update: updateStore } = useAppStore();
   // @todo use null for missed project data
-  const [projectData, setProjectData] = useState<APIProject | Empty>(projectCache.get(+params.id) ?? {});
+  const [ projectData, setProjectData ] = useState<APIProject | Empty>(projectCache.get(+params.id) ?? {});
 
   const fetchProject: Context['fetchProject'] = useCallback(async (id, force = false) => {
     const finalProjectId = +(id ?? params.id);
@@ -31,7 +31,7 @@ export const ProjectProvider: React.FunctionComponent = ({children}) => {
     if (isNaN(finalProjectId)) return;
 
     if (!force && projectCache.has(finalProjectId)) {
-      setProjectData({...projectCache.get(finalProjectId)!});
+      setProjectData({ ...projectCache.get(finalProjectId)! });
     }
 
     const result = await api.callApi<APIProject>('project', {
@@ -43,12 +43,12 @@ export const ProjectProvider: React.FunctionComponent = ({children}) => {
 
     if (shallowEqualObjects(projectData, projectInfo) === false) {
       setProjectData(projectInfo);
-      updateStore({project: projectInfo});
+      updateStore({ project: projectInfo });
       projectCache.set(projectInfo.id, projectInfo);
     }
 
     return projectInfo;
-  }, [params]);
+  }, [ params ]);
 
   const updateProject: Context['updateProject'] = useCallback(async (fields: APIProject) => {
     const result = await api.callApi<APIProject>('updateProject', {
@@ -60,18 +60,18 @@ export const ProjectProvider: React.FunctionComponent = ({children}) => {
 
     if (result.$meta) {
       setProjectData(result as unknown as APIProject);
-      updateStore({project: result});
+      updateStore({ project: result });
     }
 
     return result;
-  }, [projectData, setProjectData, updateStore]);
+  }, [ projectData, setProjectData, updateStore ]);
 
   useEffect(() => {
     if (+params.id !== projectData?.id) {
       setProjectData({});
     }
     fetchProject();
-  }, [params]);
+  }, [ params ]);
 
   useEffect(() => {
     return () => projectCache.clear();

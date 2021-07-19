@@ -23,7 +23,7 @@ const resolveWithConfig = (routes, config) => {
  * @param {Object} pages Object with components that define pages
  */
 export const pageSetToRoutes = (pages, config) => {
-  const pageProcessor = ([name, page]) => {
+  const pageProcessor = ([ name, page ]) => {
     const route = {
       path: page.path,
     };
@@ -55,7 +55,7 @@ export const pageSetToRoutes = (pages, config) => {
 
   try {
     if (Array.isArray(pages)) {
-      return pages.map((page) => pageProcessor([null, page]));
+      return pages.map((page) => pageProcessor([ null, page ]));
     } else {
       return Object.entries(pages).map(pageProcessor);
     }
@@ -86,11 +86,11 @@ export const resolveRoutes = (routes, props) => {
         // If a component provided for the set of routes/pages,
         // we render in one level higher to preserve nesting
         if (Component) {
-          children.push(processRoutes([{
+          children.push(processRoutes([ {
             path,
             modal, ...rest,
             component: Component,
-          }], parentPath));
+          } ], parentPath));
         }
 
         children.push(...resolvedNestedRoutes);

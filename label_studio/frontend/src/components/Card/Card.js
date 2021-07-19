@@ -2,7 +2,7 @@ import React from 'react';
 import { cn } from '../../utils/bem';
 import "./Card.styl";
 
-export const Card = ({header, extra, children, style}) => {
+export const Card = ({ header, extra, children, style }) => {
   const rootClass = cn("card");
   return <div className={rootClass} style={style}>
     {(header || extra) && (

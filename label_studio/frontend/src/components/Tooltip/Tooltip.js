@@ -13,12 +13,12 @@ export const Tooltip = forwardRef(
 
     const triggerElement = ref ?? useRef();
     const tooltipElement = useRef();
-    const [offset, setOffset] = useState({});
-    const [visibility, setVisibility] = useState(
+    const [ offset, setOffset ] = useState({});
+    const [ visibility, setVisibility ] = useState(
       defaultVisible ? "visible" : null,
     );
-    const [injected, setInjected] = useState(false);
-    const [align, setAlign] = useState(alignment ?? 'top-center');
+    const [ injected, setInjected ] = useState(false);
+    const [ align, setAlign ] = useState(alignment ?? 'top-center');
 
     const calculatePosition = useCallback(() => {
       const { left, top, align: resultAlign } = alignElements(
@@ -30,7 +30,7 @@ export const Tooltip = forwardRef(
 
       setOffset({ left, top });
       setAlign(resultAlign);
-    }, [triggerElement.current, tooltipElement.current]);
+    }, [ triggerElement.current, tooltipElement.current ]);
 
     const performAnimation = useCallback(
       (visible) => {
@@ -50,7 +50,7 @@ export const Tooltip = forwardRef(
           });
         }
       },
-      [injected, calculatePosition, tooltipElement],
+      [ injected, calculatePosition, tooltipElement ],
     );
 
     const visibilityClasses = useMemo(() => {
@@ -68,7 +68,7 @@ export const Tooltip = forwardRef(
         default:
           return visibility ? "visible" : null;
       }
-    }, [visibility]);
+    }, [ visibility ]);
 
     const tooltip = useMemo(
       () =>
@@ -76,14 +76,14 @@ export const Tooltip = forwardRef(
           <Block
             ref={tooltipElement}
             name="tooltip"
-            mod={{align}}
+            mod={{ align }}
             mix={visibilityClasses}
             style={{ ...offset, ...(style ?? {}) }}
           >
             <Elem name="body">{title}</Elem>
           </Block>
         ) : null,
-      [injected, offset, title, visibilityClasses, tooltipElement],
+      [ injected, offset, title, visibilityClasses, tooltipElement ],
     );
 
     const child = Children.only(children);
@@ -104,7 +104,7 @@ export const Tooltip = forwardRef(
 
     useEffect(() => {
       if (injected) performAnimation(true);
-    }, [injected]);
+    }, [ injected ]);
 
     return (
       <>
