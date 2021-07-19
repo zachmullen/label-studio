@@ -21,7 +21,10 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: "module",
   },
-  plugins: ["react", "@typescript-eslint"],
+  plugins: [
+    "react",
+    "@typescript-eslint"
+  ],
   rules: {
     "react/prop-types": "off",
     "react/display-name": "off",
