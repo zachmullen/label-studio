@@ -20,18 +20,21 @@ export const VersionProvider = ({children}) => {
 
   const fetchVersion = useCallback(async () => {
     const response = await api.callApi("version");
-    const data = response['label-studio-enterprise-package'];
-    const date = new Date(data.latest_version_upload_time);
 
-    dispatch({
-      type: "fetch-version",
-      payload: {
-        version: data.version,
-        latestVersion: data.latest_version_from_pypi,
-        newVersion: data.current_version_is_outdated,
-        updateTime: isValid(date) ? format(date, 'MMM d') : null,
-      },
-    });
+    if (response !== null) {
+      const data = response['label-studio-os-package'];
+      const date = new Date(data.latest_version_upload_time);
+
+      dispatch({
+        type: "fetch-version",
+        payload: {
+          version: data.version,
+          latestVersion: data.latest_version_from_pypi,
+          newVersion: data.current_version_is_outdated,
+          updateTime: isValid(date) ? format(date, 'MMM d') : null,
+        },
+      });
+    }
   }, [api]);
 
   useEffect(() => {
