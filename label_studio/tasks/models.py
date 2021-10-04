@@ -563,6 +563,16 @@ def update_ml_backend(sender, instance, **kwargs):
             for ml_backend in project.ml_backends.all():
                 ml_backend.train()
 
+
+@receiver(post_save, sender=Prediction)
+def update_ml_backend(sender, instance, **kwargs):
+    prediction = instance
+    project = prediction.task.project
+    if project.model_version != prediction.model_version:
+        project.model_version = prediction.model_version
+        project.save(update_fields=['model_version'])
+
+
 def update_task_stats(task, stats=('is_labeled',), save=True):
     """Update single task statistics:
         accuracy
@@ -577,6 +587,7 @@ def update_task_stats(task, stats=('is_labeled',), save=True):
         task.update_is_labeled()
     if save:
         task.save()
+
 
 def bulk_update_stats_project_tasks(tasks):
     """bulk Task update accuracy

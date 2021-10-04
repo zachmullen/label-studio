@@ -121,13 +121,16 @@ class MLBackend(models.Model):
 
     def update_state(self):
         if self.healthcheck().is_error:
+            logger.debug(f'ML backend healthcheck failed for {self}')
             self.state = MLBackendState.DISCONNECTED
         else:
             setup_response = self.setup()
             if setup_response.is_error:
+                logger.debug(f'ML backend setup failed with {setup_response}')
                 self.state = MLBackendState.ERROR
                 self.error_message = setup_response.error_message
             else:
+                logger.debug(f'ML backend setup succeeded with {setup_response}')
                 self.state = MLBackendState.CONNECTED
                 self.model_version = setup_response.response.get('model_version')
                 self.error_message = None
@@ -338,35 +341,3 @@ class MLBackendTrainJob(models.Model):
     def is_running(self):
         status = self.get_status()
         return status['job_status'] in ('queued', 'started')
-
-
-def _validate_ml_api_result(ml_api_result, tasks, curr_logger):
-    if ml_api_result.is_error:
-        curr_logger.warning(ml_api_result.error_message)
-        return False
-
-    results = ml_api_result.response['results']
-    if not isinstance(results, list) or len(results) != len(tasks):
-        curr_logger.warning('Num input tasks is %d but ML API returns %d results', len(tasks), len(results))
-        return False
-
-    return True
-
-
-def _get_model_version(project, ml_api, curr_logger):
-    logger.debug(f'Get model version for project {project}')
-    model_version = None
-    ml_api_result = ml_api.setup(project)
-    if ml_api_result.is_error:
-        curr_logger.warning(
-            (
-                f'Project {project}: can\'t fetch last model version from {ml_api_result.url}, '
-                f'reason: {ml_api_result.error_message}.'
-            )
-        )
-    else:
-        if 'model_version' in ml_api_result.response:
-            model_version = ml_api_result.response['model_version']
-        else:
-            curr_logger.error(f'Project {project}: "model_version" field is not specified in response.')
-    return model_version
