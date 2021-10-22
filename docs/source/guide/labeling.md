@@ -258,5 +258,14 @@ If you make a mistake when labeling with the brush mask, you can erase it. You m
 
 If you want to completely remove a region and start over, delete the region instead of erasing it. Erasing a region does not delete it. 
 
+### Nest regions to create parent child relationships
+If you want to create relationships between labeled regions, you can drag regions onto other regions to nest those regions under the other regions. 
+
+You might do this in an OCR task to relate a several things together. 
+
+<insert a gif here>
+
+
+
 
 <!-- md annotation_ids.md -->
