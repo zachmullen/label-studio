@@ -203,7 +203,7 @@ class TaskListAPI(generics.ListAPIView):
         }
 
     def get_prepare_params(self, *args, **kwargs):
-        return PrepareParams(project=self.project.id)
+        return get_prepare_params(self.request, self.project)
 
     def get_task_queryset(self, request, prepare_params):
         return Task.prepared.only_filtered(prepare_params=prepare_params)
@@ -230,7 +230,7 @@ class TaskListAPI(generics.ListAPIView):
         # assign project to use it in get_prepare_params()
         self.project = project
         # get prepare params (from view or from payload directly)
-        prepare_params = get_prepare_params(request, project)
+        prepare_params = self.get_prepare_params()
         queryset = self.get_task_queryset(request, prepare_params)
         context = self.get_task_serializer_context(self.request, project)
 
