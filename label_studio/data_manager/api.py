@@ -202,6 +202,9 @@ class TaskListAPI(generics.ListAPIView):
             'annotations': all_fields
         }
 
+    def get_prepare_params(self, *args, **kwargs):
+        return PrepareParams(project=self.project.id)
+
     def get_task_queryset(self, request, prepare_params):
         return Task.prepared.only_filtered(prepare_params=prepare_params)
 
@@ -224,7 +227,8 @@ class TaskListAPI(generics.ListAPIView):
             self.check_object_permissions(request, project)
         else:
             return Response({'detail': 'Neither project nor view id specified'}, status=404)
-
+        # assign project to use it in get_prepare_params()
+        self.project = project
         # get prepare params (from view or from payload directly)
         prepare_params = get_prepare_params(request, project)
         queryset = self.get_task_queryset(request, prepare_params)
@@ -302,15 +306,21 @@ class TaskAPI(generics.RetrieveAPIView):
             project__organization=self.request.user.active_organization
         )
 
+    def get_prepare_params(self, *args, **kwargs):
+        return PrepareParams(project=self.project.id)
+
+    def get_object(self):
+        instance = super().get_object()
+        # assign project to use it in get_prepare_params()
+        self.project = instance.project
+        return Task.prepared.get_queryset(
+            all_fields=True, prepare_params=self.get_prepare_params()
+        ).filter(id=instance.id).first()
+
     def get(self, request, pk):
         task = self.get_object()
         context = self.get_serializer_context(request)
         context['project'] = project = task.project
-
-        # we need to annotate task because before it was retrieved only for permission checks and project retrieving
-        task = Task.prepared.get_queryset(
-            all_fields=True, prepare_params=PrepareParams(project=project.id)
-        ).filter(id=task.id).first()
 
         # get prediction
         if (project.evaluate_predictions_automatically or project.show_collab_predictions) \

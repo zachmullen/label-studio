@@ -39,3 +39,4 @@ class PrepareParams(BaseModel):
     selectedItems: Optional[SelectedItems] = None
     filters: Optional[Filters] = None
     data: Optional[dict] = None
+    user: Optional[int] = None
