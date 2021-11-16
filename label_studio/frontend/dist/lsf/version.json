@@ -1,6 +1,6 @@
 {
-  "message": "[fix] Linter issues",
-  "commit": "d0261d7362eaee235f6ab1f2d7f64ac17e7226c6",
-  "branch": "master",
-  "date": "2021-10-26T12:28:02Z"
+  "message": "Support positive stage offsets",
+  "commit": "7312446b7de8139a154f15c1927734b04421bc36",
+  "branch": "fix/dev-1118/zoom-transform",
+  "date": "2021-11-16T10:59:55Z"
 }
