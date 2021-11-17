@@ -6,18 +6,17 @@ meta_title: Image Segmentation Data Labeling Template
 meta_description: Label Studio Image Segmentation Template for machine learning and data science data labeling projects.
 ---
 
-Image segmentation using a brush and producing a mask
+Perform image segmentation using a brush and producing a mask.
 
-## Run
+## Why use this template?
 
-```bash
-label-studio init image_segmentation_project
-label-studio start image_segmentation_project
-```
+Use this template to add masks to images and label the masks. Use to perform semantic segmentation or instance segmentation of plants, animals, or other objects in an image. 
 
-After starting Label Studio, set up the labeling interface and browse to this template.
+## Supported data types
 
-## Config 
+Image files such as .png, .tiff, or .jpg. 
+
+## Labeling Configuration  
 
 ```html
 <View>

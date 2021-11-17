@@ -18,7 +18,7 @@ Audio files such as .mp3 or .wav files.
 
 ## Labeling Configuration  
 
-```xml
+```html
 <View>
   <Header value="Listen to the audio:"></Header>
   <Audio name="audio" value="$url"></Audio>
