@@ -6,19 +6,19 @@ meta_title: Audio Classification Data Labeling Template
 meta_description: Label Studio Audio Classification Template for machine learning and data science data labeling projects.
 ---
 
-Listen to the audio file and classify it. 
+Listen to an audio file and classify it.
 
-<img src="/images/screens/audio_classification.png" class="img-template-example" title="Audio Classification" />
+## Why use this template?
 
-## Run
+Use this template to classify audio files according to topic, quality, sentiment, type of audio, or any other classification choices that you want. 
 
-```bash
-python server.py -c config.json -l ../examples/audio_classification/config.xml -i ../examples/audio_classification/tasks.json -o output_audio_classes
-```
+## Supported data types
 
-## Config 
+Audio files such as .mp3 or .wav files.
 
-```html
+## Labeling Configuration  
+
+```xml
 <View>
   <Header value="Listen to the audio:"></Header>
   <Audio name="audio" value="$url"></Audio>
