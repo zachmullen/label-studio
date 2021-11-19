@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile.heroku
 run:
-  web: ./deploy/heroku_run.sh
+  web: label-studio --host ${HOST:-""} --port ${PORT} --username ${USERNAME} --password ${PASSWORD}
