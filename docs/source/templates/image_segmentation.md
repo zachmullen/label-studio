@@ -27,3 +27,10 @@ Image files such as .png, .tiff, or .jpg.
   <Image name="img" value="$image" zoom="true" zoomControl="true" />
 </View>
 ```
+
+
+## Related tags
+
+* [BrushLabels](/tags/brushlabels.html)
+* [Image](/tags/image.html)
+* [Label](/tags/label.html)

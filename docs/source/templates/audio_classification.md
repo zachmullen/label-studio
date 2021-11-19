@@ -16,7 +16,7 @@ Use this template to classify audio files according to topic, quality, sentiment
 
 Audio files such as .mp3 or .wav files.
 
-## Labeling Configuration  
+## Labeling configuration  
 
 ```html
 <View>
@@ -31,3 +31,10 @@ Audio files such as .mp3 or .wav files.
   </Choices>
 </View>
 ```
+
+## Related tags
+
+* [Audio](/tags/audio.html)
+* [AudioPlus](/tags/audioplus.html)
+* [Choices](/tags/choices.html)
+* [Header](/tags/header.html)
