@@ -7,7 +7,7 @@ meta_title: Deploy Label Studio Enterprise on Kubernetes
 meta_description: Deploy Label Studio Enterprise on Kubernetes, such as on Amazon Elastic Container Service for Kubernetes, to create machine learning and data science projects in a scalable containerized environment. 
 ---
 
-Deploy Label Studio Enterprise on a Kubernetes Cluster using Helm 3. You can use this Helm chart to set up Label Studio Enterprise for deployment onto a Kubernetes cluster and install, upgrade, and manage the application. 
+Deploy Label Studio Enterprise on a Kubernetes Cluster using Helm 3. You can use this Helm chart to set up Label Studio Enterprise for deployment onto a Kubernetes cluster and install, upgrade, and manage the application. For smaller workloads, you can also [install Label Studio Enterprise using Docker Compose](install_enterprise_docker.md).
 
 <div class="enterprise"><p>
 To install Label Studio Community Edition, see <a href="install.html">Install and Upgrade Label Studio</a>. This page is specific to the Enterprise version of Label Studio.
@@ -27,14 +27,15 @@ If you use a proxy to access the internet from your Kubernetes cluster, or it is
 
 ### Required software prerequisites
 
+These instructions assume that you are familiar with deploying and managing a Kubernetes cluster. Your Kubernetes cluster can be self-hosted or installed somewhere such as Amazon EKS. See the Amazon tutorial on how to [Deploy a Kubernetes Application with Amazon Elastic Container Service for Kubernetes](https://aws.amazon.com/getting-started/hands-on/deploy-kubernetes-app-amazon-eks/) for more about deploying an app on Amazon EKS.
+
+The following software needs to be installed on your Kubernetes cluster:
 - Kubernetes and kubectl version 1.17 or higher
 - Helm version 3.6.3 or higher
 - Redis version 6.0.5 or higher
 - PostgreSQL version 11.9 or higher
 
-This chart has been tested and confirmed to work with the [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/) and [cert-manager](https://cert-manager.io/docs/).
-
-Your Kubernetes cluster can be self-hosted or installed somewhere such as Amazon EKS. See the Amazon tutorial on how to [Deploy a Kubernetes Application with Amazon Elastic Container Service for Kubernetes](https://aws.amazon.com/getting-started/hands-on/deploy-kubernetes-app-amazon-eks/) for more about deploying an app on Amazon EKS.
+This chart has been tested and confirmed to work with the [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/) and [cert-manager](https://cert-manager.io/docs/). Heartex does not provide ingress configurations for Label Studio Enterprise.
 
 ### Prepare the Kubernetes cluster
 
@@ -83,7 +84,7 @@ global:
     # Defined with earlier kubectl command
     - name: heartex-pull-key
 
-# Optional: override docker image
+# Optional: override the default docker image
 #  image:
 #    tag: ""
   
@@ -93,13 +94,13 @@ global:
     secretName: "lse-license"
     secretKey: "license"
   pgConfig:
-    # PostgreSql instance hostname
+    # PostgreSQL instance hostname
     host: "postgresql"
-    # PostgreSql database name
+    # PostgreSQL database name
     dbName: "my-database"
-    # PostgreSql username
+    # PostgreSQL username
     userName: "postgres"
-    # PostgreSql password secret coordinates within Kubernetes secrets 
+    # PostgreSQL password secret coordinates within Kubernetes secrets 
     password:
       secretName: "postgresql"
       secretKey: "postgresql-password"
@@ -119,17 +120,17 @@ app:
   # Ingress config for Label Studio
   ingress:
     host: studio.yourdomain.com
-    # You may need to set path to '/*' in order to use this with ALB ingress controllers.
+    # You might need to set path to '/*' in order to use this with ALB ingress controllers.
     path: /
     # Annotations required for your ingress controller, empty by default 
     annotations: {}
-# if you have cert-manager, uncomment the next section
+# if you use cert-manager, uncomment and update the next section
 #    tls:
 #      - secretName: ssl-cert-studio.yourdomain.com
 #        hosts:
 #          - studio.yourdomain.com
 
-# adjust according to your business needs
+# adjust these defaults according to your business needs
   resources:
     requests:
       memory: 1024Mi
@@ -152,7 +153,7 @@ rqworker:
 #      storageClass: ""  # This line is optional. If you have no default storageClass, configure it here. If you're running in a public cloud such as AWS, Google Cloud, or Microsoft Azure, this value is already configured. If you're running in a different environment, your cluster admin can help you to get the right value. 
 ```
 
-Adjust the included defaults to reflect your environment and copy these into a new file and save it as `lse-values.yaml`. 
+**Adjust the included defaults to reflect your environment** and copy these into a new file and save it as `lse-values.yaml`. 
 
 
 ### Use Helm to install Label Studio Enterprise on your Kubernetes cluster
