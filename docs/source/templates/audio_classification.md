@@ -14,7 +14,9 @@ Use this template to classify audio files according to topic, quality, sentiment
 
 ## Supported data types
 
-Audio files such as .mp3 or .wav files.
+Audio files such as .mp3 or .wav files. 
+
+See how to [import data](/guide/tasks.html) or [sync data from external storage](/guide/storage.html).
 
 ## Labeling configuration  
 
