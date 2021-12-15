@@ -9,16 +9,86 @@ meta_description: Label Studio Time Series Data Template for machine learning an
 
 Label time series data.
 
-## Run
+## Why use this template?
 
-```
-label-studio init time_series_project
-label-studio start time_series_project
+
+## Supported data types
+
+Time series data in CSV, TSV, or JSON format. See how to [import data](/guide/tasks.html).
+
+### CSV Example
+
+For example, for a CSV file with 3 columns:
+
+```csv
+time,sensorone,sensortwo
+0.0,3.86,0.00
+0.1,2.05,2.11
+0.2,1.64,5.85
+ ```
+
+Then, create a JSON file that references a URL for the CSV file to upload to Label Studio:
+```json
+[ { "data": { "csv_url": "http://example.com/path/to/file.csv" } } ]
 ```
 
-After starting Label Studio, set up the labeling interface and browse to this template.
+Because the JSON file references a URL, and the URL is specified in a field called `csv_url`, set up the following labeling configuration:
+
+```html
+<View>
+  <TimeSeries name="ts" valueType="url" value="$csv_url" sep="," timeColumn="time">
+    <Channel column="sensorone" />
+  </TimeSeries>
+</View> 
+```
+In this case, the `<TimeSeries>` tag has the `valueType="url"` attribute because the CSV file is referenced as a URL. See [How to import your data](/guide/tasks.html#How-to-import-your-data).
+
+### TSV Example
+
+If you're uploading a tab-separated file, use the use the `sep` attribute on the `TimeSeries` tag to specify tab separation.
+
+For example, use the following labeling configuration:
+```html
+<View>
+  <TimeSeries name="ts" valueType="url" value="$csv_url" sep="\t" timeColumn="time">
+    <Channel column="0"/>
+  </TimeSeries>
+</View> 
+```
+
+### Headless CSV & TSV
+
+The main difference for the headless CSV/TSV usage is another way to name `<Channel>` columns. Since the file has no header and nothing is known about the column names you should use column index instead, for example `0`, therefore to use the first column as a temporal column you'd do `<TimeSeries timeColumn="0" ... >`. The same is true for the `column` attribute in `<Channel>` tag. 
+
+### JSON
+
+You can import time series data in JSON format using the following structure:
+```json
+  {
+    "ts": {
+      "time": [
+        15.97, 15.85, 25.94
+      ],
+      "sensorone": [
+        13.86, 29.05, 64.90
+      ],
+      "sensortwo": [
+        21.00, 15.18, 35.85
+      ]
+    }
+  }
+```
+
+If you structure your data like this, reference `valueType="json"` in your `<TimeSeries>` tag description:
+```html
+<View>
+  <TimeSeries name="ts" valueType="json" timeColumn="time">
+    <Channel column="0"/>
+  </TimeSeries>
+</View> 
+```
   
-## Config
+## Labeling configuration
   
 Example project configuration for multivariate time series labeling:
   
@@ -35,7 +105,7 @@ Example project configuration for multivariate time series labeling:
 </View>
 ```
 
-Example csv input for the config above:
+Example csv input for the configuration above:
 
 ```csv
 time,sensorone,sensortwo
@@ -44,108 +114,19 @@ time,sensorone,sensortwo
 2,30,40
 ```
 
-Three tags used above are: 
+Use the `timeColumn` parameter in `TimeSeries` to use a specific column from your dataset as the X axis. If you skip it then it uses incremental integer values `0, 1, 2, ...`. 
+
+
+## Related tags
+
 - [TimeSeriesLabels](/tags/timeserieslabels.html) - control tag, it displays controls (buttons with labels) for labeling
 - [TimeSeries](/tags/timeseries.html) - object tag, it configures how to load the time series
 - [Channel](/tags/timeseries.html#Channel) - define channels inside time series, every channel is displayed as a single plot
 
 ### Few notes
 
-`<TimeSeriesLabels>` is linked with `<TimeSeries>` via a toName field.
   
-`<TimeSeries>` has an attribute `valueType="url"`. This means that Label Studio expects links to CSV files in its tasks.
 
-`timeColumn` in `TimeSeries` to use a specific column from your dataset as the X axis. If you skip it then it uses incremental integer values `0, 1, 2, ...`. 
-
-## Input formats
-
-Label Studio supports several input types for time series:
-
-- CSV with/without header
-- TSV with/without header
-- JSON
-
-You can upload files on the Import page, just drag & drop one or more files there. 
-
-### CSV
-
-Let's start with the most common case - CSV files. For example, you have a CSV file with 3 columns:
-
-```csv
-time,sensorone,sensortwo
-0.0,3.86,0.00
-0.1,2.05,2.11
-0.2,1.64,5.85
- ```
-
-Your `<TimeSeries>` tag should have an attribute `valueType="url"` which informs Label Studio to open value as URL with CSV file:
-
-```html
-<View>
-  <TimeSeries name="ts" valueType="url" value="$csv_url" sep="," timeColumn="time">
-    <Channel column="sensorone" />
-  </TimeSeries>
-</View> 
-```
-
-Example `file.json` to upload using import screen
-
-```json
-[ { "data": { "csv_url": "http://example.com/path/to/file.csv" } } ]
-```
-
-### TSV 
-
-For TSV you need to configure a separator, use the `sep` attribute on the `TimeSeries` tag:
-
-TSV format is very similar to CSV but the separator is a tab (`\t`) instead of a comma. 
-So, the functionality is the same as CSV.
-
-```html
-<View>
-  <TimeSeries name="ts" valueType="url" value="$csv_url" sep="\t" timeColumn="time">
-    <Channel column="0"/>
-  </TimeSeries>
-</View> 
-```
-
-### Headless CSV & TSV
-
-The main difference for the headless CSV/TSV usage is another way to name `<Channel>` columns. Since the file has no header and nothing is known about the column names you should use column index instead, for example `0`, therefore to use the first column as a temporal column you'd do `<TimeSeries timeColumn="0" ... >`. The same is true for the `column` attribute in `<Channel>` tag. 
-
-### JSON
-
-All tasks in LS are stored in JSON and this is the native format for Label Studio. 
-
-* valueType="url" 
-
-  When you use `valueType="url"` for TimeSeries tag and import a CSV file Label Studio **automatically** will create a JSON task with the body like this one: 
-  
-  ```json
-  {
-    "csv": "http://localhost:8080/data/upload/my-import-file.csv"
-  }
-  ```
-
-* valueType="json"
-  
-  Another way to use Label Studio tasks directly instead of CSV files is to create and import them as below: 
-
-  ```json
-  {
-    "ts": {
-      "time": [
-        15.97, 15.85, 25.94
-      ],
-      "sensorone": [
-        13.86, 29.05, 64.90
-      ],
-      "sensortwo": [
-        21.00, 15.18, 35.85
-      ]
-    }
-  }
-  ```
 
 ## Output format example
 
