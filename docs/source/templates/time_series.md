@@ -123,20 +123,15 @@ Use the `timeColumn` parameter in `TimeSeries` to use a specific column from you
 - [TimeSeries](/tags/timeseries.html) - object tag, it configures how to load the time series
 - [Channel](/tags/timeseries.html#Channel) - define channels inside time series, every channel is displayed as a single plot
 
-### Few notes
 
-  
+## Sample results JSON
 
+See [export documentation](export.html) for more details about how you can export your annotated timeseries data.
 
-## Output format example
-
-You can export the results on the Export page in JSON, JSON_MIN, and CSV formats. 
-
-Users make completions while labeling a task. One completion is represented by a JSON structure (e.g. a task with completions could be stored in `your_project_folder/completions/0.json`). Each completion has a `result` field and it looks like this:
-
+Example annotation results appear in JSON format like the following example:
 ```json
 {
-  "completions": [{  
+  "annotations": [{  
     "result": [
       {
           "value": {
@@ -207,4 +202,4 @@ Or you can store time series data in tasks directly.
 
 ### Video & audio sync with time series
 
-It's possible to synchronize TimeSeries with video and audio in Label Studio. Right now you can do it using HyperText tag with HTML objects `<audio src="path">`/`<video src="path">` and TimeSeries together. We have some solutions for this in the testing, [ping us](http://slack.labelstud.io.s3-website-us-east-1.amazonaws.com?source=template-timeseries) in Slack to learn more.
+It's possible to synchronize TimeSeries with video and audio in Label Studio. Right now you can do it using HyperText tag with HTML objects `<audio src="path">`or `<video src="path">` and TimeSeries together. There are some experimental and unsupported options for performing this. [Contact us](http://slack.labelstud.io.s3-website-us-east-1.amazonaws.com?source=template-timeseries) in Slack to learn more.
