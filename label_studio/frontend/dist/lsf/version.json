@@ -1,6 +1,6 @@
 {
-  "message": "ci: DEV-2483: Migrate to Playwright",
-  "commit": "b4bf8fb37e62075c5b3da6651759a2bff0e74819",
-  "branch": "master",
-  "date": "2022/07/20 17:05:18"
+  "message": "feat: DEV-2755: Regions list grouped by labels with persistent & ordered collapse",
+  "commit": "b5dfbf430a5f9167c8a4f613b6b731b1d5c2f31c",
+  "branch": "fb-dev-2755",
+  "date": "2022/07/20 10:01:56"
 }
